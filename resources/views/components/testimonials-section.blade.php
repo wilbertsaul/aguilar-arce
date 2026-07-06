@@ -1,19 +1,30 @@
-<section class="py-section-padding bg-surface-container-lowest">
-    <div class="max-w-container-max mx-auto px-gutter text-center">
-        <span class="font-caps-micro text-secondary uppercase tracking-[0.4em] mb-16 block">Voces de Liderazgo</span>
-        <div class="max-w-4xl mx-auto space-y-24">
+<section class="py-section-padding bg-surface">
+    <div class="max-w-container-max mx-auto px-gutter">
+        <div class="text-center mb-16">
+            <span class="text-caps-micro text-grey-metallic uppercase tracking-widest block mb-4 reveal-on-scroll">Testimonios</span>
+            <h2 class="text-headline-lg text-navy reveal-on-scroll">Voces de Liderazgo</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             @forelse($testimonios as $testimonio)
-            <blockquote class="reveal-on-scroll">
-                <p class="font-display-lg text-headline-md md:text-[36px] italic text-primary leading-tight mb-8">
-                    "{{ $testimonio->texto }}"
-                </p>
-                <cite class="not-italic">
-                    <span class="block font-label-sm text-primary uppercase tracking-widest mb-1">{{ $testimonio->nombre }}</span>
-                    <span class="block font-body-md text-on-surface-variant">{{ $testimonio->cargo }}, {{ $testimonio->empresa }}</span>
-                </cite>
-            </blockquote>
+            <div class="glass rounded-2xl p-8 reveal-on-scroll">
+                <div class="flex items-center gap-0.5 mb-4">
+                    @for($i = 0; $i < 5; $i++)
+                    <span class="material-symbols-outlined text-lg" style="color: #f59e0b;">star</span>
+                    @endfor
+                </div>
+                <p class="text-on-surface-variant mb-6 leading-relaxed">"{{ $testimonio->texto }}"</p>
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-navy/10 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-navy">person</span>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-navy">{{ $testimonio->nombre }}</p>
+                        <p class="text-sm text-grey-metallic">{{ $testimonio->cargo }}, {{ $testimonio->empresa }}</p>
+                    </div>
+                </div>
+            </div>
             @empty
-            <p class="text-on-surface-variant">No hay testimonios disponibles.</p>
+            <p class="col-span-full text-center text-on-surface-variant">No hay testimonios disponibles.</p>
             @endforelse
         </div>
     </div>

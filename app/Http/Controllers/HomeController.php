@@ -24,20 +24,22 @@ class HomeController extends Controller
             'descripcion' => $settings['hero_descripcion'] ?? null,
         ];
 
-        $vision = [
-            'titulo' => $settings['vision_titulo'] ?? null,
-            'texto' => $settings['vision_texto'] ?? null,
-        ];
-
         $cta = [
             'titulo' => $settings['cta_titulo'] ?? null,
             'descripcion' => $settings['cta_descripcion'] ?? null,
             'boton' => $settings['cta_boton'] ?? null,
         ];
 
+        $stats = [
+            'clientes' => $settings['clientes_count'] ?? '500',
+            'proyectos' => $settings['proyectos_count'] ?? '1200',
+            'anos' => $settings['anos_count'] ?? '15',
+            'satisfaccion' => $settings['satisfaccion'] ?? '99',
+        ];
+
         return view('pages.home', compact(
             'servicios', 'testimonios', 'articulo_destacado', 'articulos_sidebar',
-            'hero', 'vision', 'cta'
+            'hero', 'cta', 'stats'
         ));
     }
 }

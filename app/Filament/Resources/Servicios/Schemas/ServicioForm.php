@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\Servicios\Schemas;
 
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -33,10 +33,23 @@ class ServicioForm
                         Textarea::make('descripcion_larga')
                             ->label('Descripción Larga')
                             ->rows(6),
-                        TextInput::make('icono')
-                            ->label('Icono (Material Symbol)')
-                            ->maxLength(255)
-                            ->helperText('Ej: account_balance, receipt, devices'),
+                        Select::make('icono')
+                            ->label('Icono')
+                            ->allowHtml()
+                            ->options([
+                                'account_balance' => '<span class="material-symbols-outlined align-middle mr-2">account_balance</span> Banco / Contabilidad',
+                                'receipt' => '<span class="material-symbols-outlined align-middle mr-2">receipt</span> Factura / Recibo',
+                                'calculate' => '<span class="material-symbols-outlined align-middle mr-2">calculate</span> Calculadora',
+                                'analytics' => '<span class="material-symbols-outlined align-middle mr-2">analytics</span> Analítica / Datos',
+                                'trending_up' => '<span class="material-symbols-outlined align-middle mr-2">trending_up</span> Crecimiento',
+                                'security' => '<span class="material-symbols-outlined align-middle mr-2">security</span> Seguridad / Auditoría',
+                                'devices' => '<span class="material-symbols-outlined align-middle mr-2">devices</span> Tecnología / Dispositivos',
+                                'insights' => '<span class="material-symbols-outlined align-middle mr-2">insights</span> Insights / Perspectivas',
+                                'groups' => '<span class="material-symbols-outlined align-middle mr-2">groups</span> Equipo / Personas',
+                                'handshake' => '<span class="material-symbols-outlined align-middle mr-2">handshake</span> Alianza / Partnership',
+                                'lightbulb' => '<span class="material-symbols-outlined align-middle mr-2">lightbulb</span> Innovación',
+                                'bar_chart' => '<span class="material-symbols-outlined align-middle mr-2">bar_chart</span> Gráfico / Estadísticas',
+                            ]),
                         TextInput::make('orden')
                             ->label('Orden')
                             ->numeric()
