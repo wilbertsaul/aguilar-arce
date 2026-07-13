@@ -11,7 +11,7 @@
             <a href="#blog" class="text-sm font-medium text-navy/70 hover:text-navy transition-colors">Blog</a>
         </div>
         <div class="flex items-center gap-4">
-            <a href="#contacto" class="hidden md:inline-flex bg-navy text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-navy-light transition-all duration-300">Solicitar Asesoría</a>
+            <a href="{{ route('consultoria.show') }}" class="hidden md:inline-flex bg-navy text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-navy-light transition-all duration-300">Solicitar Asesoría</a>
             <button class="md:hidden p-2 text-navy" onclick="toggleMenu()" aria-label="Menú">
                 <span class="material-symbols-outlined text-2xl">menu</span>
             </button>
@@ -23,7 +23,7 @@
             <a href="#nosotros" class="text-navy/70 font-medium py-2" onclick="toggleMenu()">Nosotros</a>
             <a href="#transformacion-digital" class="text-navy/70 font-medium py-2" onclick="toggleMenu()">Transformación Digital</a>
             <a href="#blog" class="text-navy/70 font-medium py-2" onclick="toggleMenu()">Blog</a>
-            <a href="#contacto" class="bg-navy text-white px-6 py-3 rounded-full text-center font-semibold" onclick="toggleMenu()">Solicitar Asesoría</a>
+            <a href="{{ route('consultoria.show') }}" class="bg-navy text-white px-6 py-3 rounded-full text-center font-semibold" onclick="toggleMenu()">Solicitar Asesoría</a>
         </div>
     </div>
 </nav>

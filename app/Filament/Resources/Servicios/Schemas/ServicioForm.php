@@ -26,6 +26,10 @@ class ServicioForm
                             ->label('Slug')
                             ->maxLength(255)
                             ->helperText('Déjalo vacío para que se genere automáticamente.'),
+                        TextInput::make('categoria')
+                            ->label('Categoría')
+                            ->maxLength(255)
+                            ->helperText('Nombre de la categoría del servicio.'),
                         Textarea::make('descripcion_corta')
                             ->label('Descripción Corta')
                             ->required()
@@ -33,6 +37,12 @@ class ServicioForm
                         Textarea::make('descripcion_larga')
                             ->label('Descripción Larga')
                             ->rows(6),
+                        Textarea::make('sub_servicios')
+                            ->label('Sub-servicios')
+                            ->rows(6)
+                            ->helperText('Un sub-servicio por línea.')
+                            ->dehydrateStateUsing(fn ($state) => is_array($state) ? $state : array_filter(explode("\n", $state)))
+                            ->afterStateHydrated(fn ($state, $set) => $set('sub_servicios', is_array($state) ? implode("\n", $state) : $state)),
                         Select::make('icono')
                             ->label('Icono')
                             ->allowHtml()

@@ -8,7 +8,6 @@
     @include('components.services-section')
     @include('components.digital-section')
     @include('components.paradigm-section')
-    @include('components.testimonials-section')
     @include('components.insights-section')
     @include('components.cta-section')
 @endsection

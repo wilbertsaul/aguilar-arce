@@ -7,8 +7,8 @@
         <p class="text-white/70 text-lg max-w-2xl mx-auto mb-10 reveal-on-scroll">
             {{ $cta['descripcion'] ?? 'Estamos listos para transformar su visión en resultados tangibles.' }}
         </p>
-        <button class="inline-flex bg-white text-navy px-10 py-4 rounded-full font-semibold hover:bg-white/90 hover:scale-105 transition-all duration-300 shadow-xl reveal-on-scroll">
+        <a href="{{ route('consultoria.show') }}" class="inline-flex bg-white text-navy px-10 py-4 rounded-full font-semibold hover:bg-white/90 hover:scale-105 transition-all duration-300 shadow-xl reveal-on-scroll">
             {{ $cta['boton'] ?? 'Agendar Consultoría' }}
-        </button>
+        </a>
     </div>
 </section>

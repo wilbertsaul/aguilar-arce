@@ -8,13 +8,14 @@ use Illuminate\Support\Str;
 class Servicio extends Model
 {
     protected $fillable = [
-        'titulo', 'slug', 'descripcion_corta', 'descripcion_larga',
-        'icono', 'orden', 'activo',
+        'titulo', 'slug', 'categoria', 'descripcion_corta', 'descripcion_larga',
+        'sub_servicios', 'icono', 'orden', 'activo',
     ];
 
     protected $casts = [
         'activo' => 'boolean',
         'orden' => 'integer',
+        'sub_servicios' => 'array',
     ];
 
     protected static function booted()
