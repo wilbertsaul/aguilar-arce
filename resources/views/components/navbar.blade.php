@@ -8,14 +8,7 @@
         }
     }
     #mobile-menu {
-        max-height: 0 !important;
-        overflow: hidden !important;
-        opacity: 0 !important;
-        transition: max-height 0.3s ease-out, opacity 0.3s ease-out !important;
-    }
-    #mobile-menu.menu-open {
-        max-height: 400px !important;
-        opacity: 1 !important;
+        transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
     }
 </style>
 <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300" id="navbar">

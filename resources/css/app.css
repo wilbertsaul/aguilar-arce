@@ -141,19 +141,6 @@
         }
     }
 
-    /* Mobile menu transition */
-    #mobile-menu {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
-        opacity: 0;
-    }
-
-    #mobile-menu.menu-open {
-        max-height: 400px;
-        opacity: 1;
-    }
-
     /* Hide from script-enabled browsers as fallback */
     .no-js .reveal-on-scroll {
         opacity: 1;
