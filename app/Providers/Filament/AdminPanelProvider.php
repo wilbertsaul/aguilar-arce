@@ -28,6 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->canAccess(fn () => true)
             ->brandName('Aguilar & Arce')
             ->colors([
                 'primary' => Color::hex('#000000'),
