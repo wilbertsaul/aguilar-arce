@@ -43,7 +43,7 @@
                         </div>
                         <div>
                             <h4 class="text-navy uppercase tracking-wider mb-2 text-[10px] font-semibold tracking-[0.1em]">Contacto Directo</h4>
-                            <p class="text-body-md text-on-surface-variant font-medium">contacto@aguilararce.pe</p>
+                            <p class="text-body-md text-on-surface-variant font-medium">aguilaryarceconsultores@gmail.com</p>
                         </div>
                     </div>
                 </div>
