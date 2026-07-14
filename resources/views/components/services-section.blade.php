@@ -6,7 +6,7 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @forelse($servicios as $servicio)
-            <div class="group glass rounded-2xl p-8 hover-lift reveal-on-scroll">
+            <div class="group glass rounded-2xl p-6 md:p-8 hover-lift reveal-on-scroll">
                 @if($servicio->icono)
                 <div class="w-14 h-14 rounded-xl bg-navy/5 flex items-center justify-center mb-6 group-hover:bg-navy transition-all duration-300">
                     <span class="material-symbols-outlined text-3xl text-navy group-hover:text-white transition-all duration-300">{{ $servicio->icono }}</span>

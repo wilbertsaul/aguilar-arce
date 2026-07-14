@@ -1,4 +1,4 @@
-<section class="relative min-h-[90vh] hero-gradient flex items-center pt-32 overflow-hidden">
+<section class="relative min-h-[90vh] hero-gradient flex items-center pt-24 md:pt-32 overflow-hidden">
     <div class="absolute inset-0 pattern-dots opacity-30"></div>
     <div class="relative z-10 max-w-container-max mx-auto px-gutter w-full py-16">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -6,7 +6,7 @@
                 <span class="inline-block bg-white/10 text-white/80 text-xs font-semibold px-4 py-1.5 rounded-full mb-6 backdrop-blur-sm border border-white/10 reveal-on-scroll">
                     Consultoría Estratégica
                 </span>
-                <h1 class="text-display-lg lg:text-display-xl text-white leading-tight mb-6 reveal-on-scroll">
+                <h1 class="text-headline-md md:text-display-lg lg:text-display-xl text-white leading-tight mb-6 reveal-on-scroll">
                     {{ $hero['titulo'] ?? 'Transformamos números en' }}<br>
                     <span class="text-white/70 font-light">{{ $hero['subtitulo'] ?? 'decisiones estratégicas.' }}</span>
                 </h1>
@@ -18,7 +18,7 @@
                     <a href="#contacto" class="inline-flex border-2 border-white/30 text-white px-8 py-3 rounded-full font-semibold hover:bg-white/10 transition-all duration-300">Agendar Cita</a>
                 </div>
             </div>
-            <div class="hidden lg:block relative">
+            <div class="hidden md:block relative">
                 <div class="relative rounded-2xl overflow-hidden shadow-2xl">
                     <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUUbCS0pwExAHFQ9iMjpBNW3qWYrZKFxrt27KEYWE-8hMTiNcCqal5o976ULodSPqeL2Z29KHUe67jwGSyNfLM0YiVf-8bTnphCWpnJsM3tbA3Jo0YsAtPAaKBlgdJvG4P-St5Rw3vNSJ3tysiWnO_YGamoFCoJ1MyVyNiIxwu4GwnxsykiKz9t-XquBV6QdZZ91WgVVsuTRjNzVQffqMmvbboSyCDXhsuJZkTcwKtJB4CsonfBCUPeSkSfmGbxRA0P-t7UBfwxn9t" alt="Hero" class="w-full h-auto">
                 </div>

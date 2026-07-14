@@ -6,28 +6,28 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div class="flex gap-6 reveal-on-scroll">
-                <span class="text-5xl font-bold text-navy/10 select-none">01</span>
+                <span class="text-4xl md:text-5xl font-bold text-navy/10 select-none">01</span>
                 <div>
                     <h3 class="text-xl font-semibold text-navy mb-2">Visión Estratégica</h3>
                     <p class="text-on-surface-variant">Transformamos datos complejos en estrategias claras y accionables para tu negocio.</p>
                 </div>
             </div>
             <div class="flex gap-6 reveal-on-scroll">
-                <span class="text-5xl font-bold text-navy/10 select-none">02</span>
+                <span class="text-4xl md:text-5xl font-bold text-navy/10 select-none">02</span>
                 <div>
                     <h3 class="text-xl font-semibold text-navy mb-2">Experiencia Global</h3>
                     <p class="text-on-surface-variant">Más de 15 años asesorando a empresas líderes en mercados internacionales.</p>
                 </div>
             </div>
             <div class="flex gap-6 reveal-on-scroll">
-                <span class="text-5xl font-bold text-navy/10 select-none">03</span>
+                <span class="text-4xl md:text-5xl font-bold text-navy/10 select-none">03</span>
                 <div>
                     <h3 class="text-xl font-semibold text-navy mb-2">Enfoque Innovador</h3>
                     <p class="text-on-surface-variant">Integramos tecnología de punta con metodologías probadas para resultados óptimos.</p>
                 </div>
             </div>
             <div class="flex gap-6 reveal-on-scroll">
-                <span class="text-5xl font-bold text-navy/10 select-none">04</span>
+                <span class="text-4xl md:text-5xl font-bold text-navy/10 select-none">04</span>
                 <div>
                     <h3 class="text-xl font-semibold text-navy mb-2">Compromiso Real</h3>
                     <p class="text-on-surface-variant">Cada cliente es único. Creamos soluciones a la medida con acompañamiento constante.</p>

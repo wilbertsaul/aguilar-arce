@@ -132,4 +132,49 @@
         background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
         background-size: 24px 24px;
     }
+
+    /* Fallback: show content if JS is unavailable */
+    @media (scripting: none) {
+        .reveal-on-scroll {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+    }
+
+    /* Mobile menu transition */
+    #mobile-menu {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+        opacity: 0;
+    }
+
+    #mobile-menu.menu-open {
+        max-height: 400px;
+        opacity: 1;
+    }
+
+    /* Hide from script-enabled browsers as fallback */
+    .no-js .reveal-on-scroll {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (max-width: 767px) {
+    #navbar img {
+        width: 2.5rem !important;
+        height: 2.5rem !important;
+        max-width: 2.5rem !important;
+        max-height: 2.5rem !important;
+    }
+
+    #servicios,
+    #transformacion-digital,
+    #nosotros,
+    #blog,
+    #testimonios {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
 }

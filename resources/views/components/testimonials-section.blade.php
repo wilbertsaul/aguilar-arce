@@ -1,10 +1,10 @@
-<section class="py-section-padding bg-surface">
+<section class="py-section-padding bg-surface" id="testimonios">
     <div class="max-w-container-max mx-auto px-gutter">
         <div class="text-center mb-16">
             <span class="text-caps-micro text-grey-metallic uppercase tracking-widest block mb-4 reveal-on-scroll">Testimonios</span>
             <h2 class="text-headline-lg text-navy reveal-on-scroll">Voces de Liderazgo</h2>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @forelse($testimonios as $testimonio)
             <div class="glass rounded-2xl p-8 reveal-on-scroll">
                 <div class="flex items-center gap-0.5 mb-4">

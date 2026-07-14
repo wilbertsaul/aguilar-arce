@@ -1,8 +1,10 @@
 <footer class="bg-navy text-white">
     <div class="max-w-container-max mx-auto px-gutter py-16">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
-            <div class="md:col-span-4">
-                <img src="{{ asset('images/AA Consultores.png') }}" alt="Aguilar & Arce" width="256" height="256" class="object-contain w-20 h-20 mb-4 opacity-80">
+            <div class="md:col-span-4 flex flex-col items-center text-center">
+                <div class="w-20 h-20 rounded-full bg-white flex items-center justify-center mb-4">
+                    <img src="{{ asset('images/AA Consultores.png') }}" alt="Aguilar & Arce" class="object-contain w-20 h-20">
+                </div>
                 <p class="text-white/60 text-sm leading-relaxed max-w-xs">Consultoría estratégica de alto nivel para un mundo impulsado por datos. Transformamos números en decisiones.</p>
             </div>
             <div class="md:col-span-2">

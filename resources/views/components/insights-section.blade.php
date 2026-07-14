@@ -1,6 +1,6 @@
 <section class="py-section-padding bg-surface-variant" id="blog">
     <div class="max-w-container-max mx-auto px-gutter">
-        <div class="mb-12">
+        <div class="mb-12 text-center">
             <span class="text-caps-micro text-grey-metallic uppercase tracking-widest block mb-4 reveal-on-scroll">Perspectivas Estratégicas</span>
             <h2 class="text-headline-lg text-navy reveal-on-scroll">El Pulso del Mercado</h2>
         </div>

@@ -1,7 +1,27 @@
+<style>
+    @media (max-width: 767px) {
+        #navbar img {
+            width: 7.031rem !important;
+            height: 7.031rem !important;
+            max-width: 7.031rem !important;
+            max-height: 7.031rem !important;
+        }
+    }
+    #mobile-menu {
+        max-height: 0 !important;
+        overflow: hidden !important;
+        opacity: 0 !important;
+        transition: max-height 0.3s ease-out, opacity 0.3s ease-out !important;
+    }
+    #mobile-menu.menu-open {
+        max-height: 400px !important;
+        opacity: 1 !important;
+    }
+</style>
 <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300" id="navbar">
     <div class="max-w-container-max mx-auto px-gutter flex items-center justify-between h-20 md:h-24">
         <a href="{{ route('home') }}">
-            <img src="{{ asset('images/AA Consultores.png') }}" alt="Aguilar & Arce" width="160" height="160" class="object-contain w-40 h-40">
+            <img src="{{ asset('images/AA Consultores.png') }}" alt="Aguilar & Arce" class="w-40 h-40 object-contain">
         </a>
         <div class="hidden md:flex items-center gap-8">
             <a href="{{ route('home') }}#servicios" class="text-sm font-medium text-navy/70 hover:text-navy transition-colors">Servicios</a>
@@ -16,8 +36,8 @@
             </button>
         </div>
     </div>
-    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-grey-light/50 px-gutter py-6">
-        <div class="flex flex-col gap-4">
+    <div id="mobile-menu" class="md:hidden bg-white border-t border-grey-light/50 px-gutter py-0">
+        <div class="flex flex-col gap-4 py-6">
             <a href="{{ route('home') }}#servicios" class="text-navy font-medium py-2" onclick="toggleMenu()">Servicios</a>
             <a href="{{ route('home') }}#nosotros" class="text-navy/70 font-medium py-2" onclick="toggleMenu()">Nosotros</a>
             <a href="{{ route('home') }}#transformacion-digital" class="text-navy/70 font-medium py-2" onclick="toggleMenu()">Transformación Digital</a>

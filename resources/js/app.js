@@ -49,6 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.toggleMenu = function () {
         const menu = document.getElementById('mobile-menu');
-        if (menu) menu.classList.toggle('hidden');
+        if (menu) menu.classList.toggle('menu-open');
     };
 });
