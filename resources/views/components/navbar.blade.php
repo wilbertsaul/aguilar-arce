@@ -1,8 +1,7 @@
 <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300" id="navbar">
     <div class="max-w-container-max mx-auto px-gutter flex items-center justify-between h-20 md:h-24">
-        <a href="{{ route('home') }}" class="flex items-center gap-3">
+        <a href="{{ route('home') }}">
             <img src="{{ asset('images/AA Consultores.png') }}" alt="Aguilar & Arce" width="160" height="160" class="object-contain w-40 h-40">
-            <span class="text-navy font-bold text-lg md:text-xl tracking-tight">Aguilar & <span class="font-light">Arce</span></span>
         </a>
         <div class="hidden md:flex items-center gap-8">
             <a href="#servicios" class="text-sm font-medium text-navy/70 hover:text-navy transition-colors">Servicios</a>

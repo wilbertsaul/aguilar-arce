@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Models\Setting;
 use BackedEnum;
+use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -111,6 +112,9 @@ class ManageSiteSettings extends Page implements HasForms
             Setting::set($key, $value);
         }
 
-        $this->sendSuccessNotification();
+        Notification::make()
+            ->title('Configuración guardada exitosamente')
+            ->success()
+            ->send();
     }
 }

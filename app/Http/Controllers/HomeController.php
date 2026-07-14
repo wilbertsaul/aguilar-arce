@@ -31,9 +31,9 @@ class HomeController extends Controller
         ];
 
         $stats = [
-            'clientes' => $settings['clientes_count'] ?? '500',
+            'clientes' => $settings['clientes_count'] ?? '1000',
             'proyectos' => $settings['proyectos_count'] ?? '1200',
-            'anos' => $settings['anos_count'] ?? '15',
+            'anos' => $settings['anos_count'] ?? '8',
             'satisfaccion' => $settings['satisfaccion'] ?? '99',
         ];
 

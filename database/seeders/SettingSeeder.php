@@ -15,9 +15,9 @@ class SettingSeeder extends Seeder
         Setting::set('cta_titulo', 'Impulsemos juntos el crecimiento.');
         Setting::set('cta_descripcion', 'Estamos listos para transformar su visión en resultados tangibles.');
         Setting::set('cta_boton', 'Agendar Consultoría');
-        Setting::set('clientes_count', '500');
+        Setting::set('clientes_count', '1000');
         Setting::set('proyectos_count', '1200');
-        Setting::set('anos_count', '15');
+        Setting::set('anos_count', '8');
         Setting::set('satisfaccion', '99');
     }
 }
