@@ -1,10 +1,14 @@
 <?php
 
+use App\Http\Controllers\ArticuloController;
 use App\Http\Controllers\ConsultoriaController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/blog', [ArticuloController::class, 'blog'])->name('blog');
+Route::get('/articulo/{slug}', [ArticuloController::class, 'show'])->name('articulo.show');
 
 Route::get('/consultoria', [ConsultoriaController::class, 'show'])->name('consultoria.show');
 Route::post('/consultoria', [ConsultoriaController::class, 'store'])

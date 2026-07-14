@@ -34,7 +34,8 @@ class ArticuloForm
                             ->columnSpanFull(),
                         TextInput::make('imagen')
                             ->label('URL de la imagen')
-                            ->maxLength(255),
+                            ->helperText('URL directa de imagen (.jpg, .png, .webp, etc)')
+                            ->rules(['nullable', 'url']),
                         TextInput::make('categoria')
                             ->label('Categoría')
                             ->required()
@@ -44,6 +45,21 @@ class ArticuloForm
                         Toggle::make('activo')
                             ->label('Activo')
                             ->default(true),
+                    ]),
+                Section::make('Autor')
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('autor_nombre')
+                            ->label('Nombre del autor')
+                            ->default('Aguilar & Arce')
+                            ->maxLength(255),
+                        TextInput::make('autor_rol')
+                            ->label('Cargo / Rol')
+                            ->maxLength(255),
+                        TextInput::make('autor_imagen')
+                            ->label('URL imagen del autor')
+                            ->helperText('URL directa de imagen (.jpg, .png, etc)')
+                            ->rules(['nullable', 'url']),
                     ]),
             ]);
     }

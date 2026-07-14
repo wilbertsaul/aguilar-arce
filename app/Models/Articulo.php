@@ -9,6 +9,7 @@ class Articulo extends Model
 {
     protected $fillable = [
         'titulo', 'slug', 'resumen', 'contenido', 'imagen',
+        'autor_nombre', 'autor_rol', 'autor_imagen',
         'categoria', 'destacado', 'activo',
     ];
 
