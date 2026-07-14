@@ -20,7 +20,7 @@ class ConsultoriaRecibida extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Nueva Solicitud de Consultoría - ' . $this->consultoria->nombre,
+            subject: 'Nueva Solicitud de Consultoría - '.$this->consultoria->nombre,
         );
     }
 

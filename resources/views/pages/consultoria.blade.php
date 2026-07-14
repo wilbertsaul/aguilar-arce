@@ -69,8 +69,19 @@
                         </div>
                         @endif
 
-                        <form action="{{ route('consultoria.store') }}" method="POST" class="space-y-6">
+                        <form action="{{ route('consultoria.store') }}" method="POST" class="space-y-6" id="consultoria-form">
                             @csrf
+
+                            {{-- Layer 1: Honeypot - hidden field that bots fill but humans don't --}}
+                            <div style="position: absolute; left: -9999px; opacity: 0; height: 0; width: 0; overflow: hidden;" aria-hidden="true">
+                                <input type="text" name="website_url" tabindex="-1" autocomplete="off" value="">
+                            </div>
+
+                            {{-- Layer 2: Encrypted timestamp for time trap --}}
+                            <input type="hidden" name="form_timestamp" value="{{ $formTimestamp }}">
+
+                            {{-- Layer 3: JavaScript checksum - will be set to "2" by JS --}}
+                            <input type="hidden" name="js_checksum" id="js_checksum" value="1">
 
                             <div class="space-y-2">
                                 <label for="nombre" class="block text-navy uppercase tracking-widest" style="font-size:10px; font-weight:600; letter-spacing:0.1em;">NOMBRE COMPLETO</label>
@@ -119,6 +130,12 @@
                                 @enderror
                             </div>
 
+                            @error('rate_limit')
+                            <div class="bg-error/10 border border-error/20 text-error rounded-xl p-4 mb-4">
+                                <p class="text-sm font-medium">{{ $message }}</p>
+                            </div>
+                            @enderror
+
                             <div class="pt-4">
                                 <button type="submit" class="w-full bg-navy text-white py-5 rounded-2xl font-semibold hover:opacity-90 transition-all shadow-lg shadow-navy/20 flex items-center justify-center gap-3">
                                     Enviar Solicitud
@@ -144,4 +161,11 @@
         </div>
     </div>
 </section>
-@endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('js_checksum').value = '2';
+    });
+</script>
+@endpush
