@@ -13,8 +13,8 @@ class HomeController extends Controller
     {
         $servicios = Servicio::where('activo', true)->orderBy('orden')->get();
         $testimonios = Testimonio::where('activo', true)->get();
-        $articulo_destacado = Articulo::where('activo', true)->where('destacado', true)->first();
-        $articulos_sidebar = Articulo::where('activo', true)->where('destacado', false)->take(3)->get();
+        $featured = Articulo::where('activo', true)->where('destacado', true)->get();
+        $all = Articulo::where('activo', true)->where('destacado', false)->take(3)->get();
 
         $settings = Setting::pluck('value', 'key');
 
@@ -38,7 +38,7 @@ class HomeController extends Controller
         ];
 
         return view('pages.home', compact(
-            'servicios', 'testimonios', 'articulo_destacado', 'articulos_sidebar',
+            'servicios', 'testimonios', 'featured', 'all',
             'hero', 'cta', 'stats'
         ));
     }
