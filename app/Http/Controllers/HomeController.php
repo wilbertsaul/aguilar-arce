@@ -13,8 +13,15 @@ class HomeController extends Controller
     {
         $servicios = Servicio::where('activo', true)->orderBy('orden')->get();
         $testimonios = Testimonio::where('activo', true)->get();
-        $featured = Articulo::where('activo', true)->where('destacado', true)->get();
-        $all = Articulo::where('activo', true)->where('destacado', false)->take(3)->get();
+        $featured = Articulo::where('activo', true)->where('destacado', true)->orderBy('created_at', 'desc')->first();
+        if (!$featured) {
+            $featured = Articulo::where('activo', true)->orderBy('created_at', 'desc')->first();
+        }
+        $all = Articulo::where('activo', true)
+            ->where('id', '!=', $featured?->id)
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
 
         $settings = Setting::pluck('value', 'key');
 
