@@ -3,14 +3,30 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../views/**/*.blade.php';
+@source '../js/**/*.js';
 
 @theme {
+    /* Navy institucional (base del sitio) */
     --color-navy: #001c37;
     --color-navy-light: #0a2a4a;
     --color-navy-dark: #000e1c;
     --color-grey-metallic: #8c8c8c;
     --color-grey-light: #e2e8f0;
     --color-grey-dark: #4a4a4a;
+
+    /* Teal vibrante (facturador / acentos interactivos) */
+    --color-teal-accent: #00c4a7;
+    --color-teal-bright: #22e0c4;
+    --color-teal-deep: #02988a;
+    --color-teal-container: #e5faf6;
+
+    /* Amber promo (badges de ahorro) */
+    --color-amber-accent: #dd6b20;
+    --color-amber-container: #fdeede;
+
+    /* WhatsApp corporativo */
+    --color-whatsapp: #25d366;
+    --color-whatsapp-dark: #1da851;
 
     --color-primary: #001c37;
     --color-on-primary: #ffffff;
@@ -42,6 +58,7 @@
     --color-surface-tint: #b0c8eb;
 
     --font-sans: 'Inter', sans-serif;
+    --font-title: 'Montserrat', 'Inter', sans-serif;
 
     --text-display-xl: 72px;
     --text-display-xl--line-height: 1.05;
@@ -94,18 +111,23 @@
     }
 
     .glass-nav {
-        background: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.92);
         backdrop-filter: blur(24px);
         -webkit-backdrop-filter: blur(24px);
-        border-bottom: 1px solid rgba(226, 232, 240, 0.3);
+        border-bottom: 1px solid rgba(226, 232, 240, 0.4);
     }
 
     .hero-gradient {
-        background: linear-gradient(135deg, #001c37 0%, #0a2a4a 40%, #000e1c 100%);
+        background:
+            radial-gradient(ellipse 60% 50% at 85% 15%, rgba(0, 196, 167, 0.18), transparent 70%),
+            radial-gradient(ellipse 40% 40% at 10% 90%, rgba(0, 196, 167, 0.08), transparent 70%),
+            linear-gradient(135deg, #001c37 0%, #0a2a4a 55%, #000e1c 100%);
     }
 
     .tech-gradient {
-        background: linear-gradient(135deg, #001c37 0%, #1a3a5c 50%, #0a2a4a 100%);
+        background:
+            radial-gradient(ellipse 50% 60% at 90% 20%, rgba(0, 196, 167, 0.12), transparent 70%),
+            linear-gradient(135deg, #001c37 0%, #0a2a4a 50%, #000e1c 100%);
     }
 
     .hover-lift {
@@ -129,7 +151,7 @@
     }
 
     .pattern-dots {
-        background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+        background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
         background-size: 24px 24px;
     }
 
@@ -146,22 +168,402 @@
         opacity: 1;
         transform: none;
     }
+
+    /* ============ Botones ============ */
+    .btn-teal {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-family: var(--font-title);
+        font-weight: 600;
+        font-size: 14px;
+        color: #001c37;
+        background: linear-gradient(135deg, #00c4a7 0%, #22e0c4 100%);
+        border-radius: 0.75rem;
+        padding: 0.875rem 1.75rem;
+        box-shadow: 0 10px 25px -8px rgba(0, 196, 167, 0.55);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .btn-teal:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 32px -8px rgba(0, 196, 167, 0.65);
+        filter: brightness(1.05);
+    }
+
+    .btn-navy {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-family: var(--font-title);
+        font-weight: 600;
+        font-size: 14px;
+        color: #ffffff;
+        background: linear-gradient(135deg, #0a2a4a 0%, #001c37 100%);
+        border-radius: 0.75rem;
+        padding: 0.875rem 1.75rem;
+        box-shadow: 0 10px 25px -8px rgba(0, 28, 55, 0.5);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .btn-navy:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 32px -8px rgba(0, 28, 55, 0.55);
+    }
+
+    .btn-outline {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-family: var(--font-title);
+        font-weight: 600;
+        font-size: 14px;
+        color: #001c37;
+        background: #ffffff;
+        border: 1px solid #c4c6ce;
+        border-radius: 0.75rem;
+        padding: 0.875rem 1.75rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .btn-outline:hover {
+        border-color: #001c37;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px -10px rgba(0, 28, 55, 0.25);
+    }
+
+    .btn-whatsapp {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-family: var(--font-title);
+        font-weight: 700;
+        font-size: 14px;
+        color: #ffffff;
+        background: linear-gradient(135deg, #25d366 0%, #1da851 100%);
+        border-radius: 0.75rem;
+        padding: 0.875rem 1.75rem;
+        box-shadow: 0 10px 25px -8px rgba(37, 211, 102, 0.5);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .btn-whatsapp:hover {
+        transform: translateY(-2px);
+        filter: brightness(1.05);
+        box-shadow: 0 16px 32px -8px rgba(37, 211, 102, 0.6);
+    }
+
+    /* ============ Chips seleccionables (formulario de requerimientos) ============ */
+    .chip {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.55rem 1.1rem;
+        font-size: 13px;
+        font-weight: 600;
+        color: #5a5a5a;
+        background: #ffffff;
+        border: 1px solid #c4c6ce;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        user-select: none;
+        transition: all 0.2s ease;
+    }
+
+    .chip:hover {
+        border-color: #001c37;
+        color: #001c37;
+    }
+
+    .chip.active {
+        color: #001c37;
+        background: linear-gradient(135deg, #00c4a7 0%, #22e0c4 100%);
+        border-color: #00c4a7;
+        box-shadow: 0 6px 16px -6px rgba(0, 196, 167, 0.6);
+    }
+
+    /* ============ Stage cards (etapas del formulario) ============ */
+    .stage-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 1rem;
+        padding: 1.75rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .stage-card:hover {
+        border-color: #001c37;
+        transform: translateY(-4px);
+        box-shadow: 0 16px 32px -16px rgba(0, 28, 55, 0.2);
+    }
+
+    .stage-card.active {
+        border: 2px solid #00c4a7;
+        background: linear-gradient(180deg, rgba(0, 196, 167, 0.05) 0%, #ffffff 60%);
+        box-shadow: 0 16px 32px -16px rgba(0, 196, 167, 0.35);
+    }
+
+    /* ============ Badge de flujo metodológico ============ */
+    .flow-badge {
+        display: block;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-left: 3px solid #00c4a7;
+        border-radius: 0.5rem;
+        padding: 0.6rem 0.85rem;
+        font-size: 11px;
+        font-weight: 500;
+        line-height: 1.4;
+        color: #5a5a5a;
+        letter-spacing: 0.01em;
+    }
+
+    .flow-badge strong {
+        color: #001c37;
+        font-weight: 700;
+    }
+
+    /* ============ Badge SUNAT conectado (ping) ============ */
+    .badge-sunat {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #25d366;
+        color: #ffffff;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 0.35rem 0.85rem;
+        border-radius: 9999px;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        box-shadow: 0 8px 20px -6px rgba(37, 211, 102, 0.55);
+    }
+
+    /* ============ Marca de agua del simulador ============ */
+    .watermark-simulacion {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+        z-index: 20;
+    }
+
+    .watermark-simulacion::before {
+        content: 'SIMULACIÓN — SIN VALOR TRIBUTARIO';
+        font-family: var(--font-title);
+        font-size: 28px;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-align: center;
+        color: rgba(186, 26, 26, 0.16);
+        border: 3px solid rgba(186, 26, 26, 0.14);
+        border-radius: 8px;
+        padding: 10px 28px;
+        transform: rotate(-12deg);
+        white-space: nowrap;
+        max-width: 90%;
+    }
+
+    /* ============ Stepper del simulador ============ */
+    .stepper-step {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        color: #8c8c8c;
+        transition: color 0.3s ease;
+    }
+
+    .stepper-dot {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 9999px;
+        border: 2px solid #c4c6ce;
+        background: #ffffff;
+        font-family: var(--font-title);
+        font-weight: 700;
+        font-size: 13px;
+        flex-shrink: 0;
+        transition: all 0.3s ease;
+    }
+
+    .stepper-step.active .stepper-dot {
+        border-color: #00c4a7;
+        background: linear-gradient(135deg, #00c4a7, #22e0c4);
+        color: #001c37;
+        box-shadow: 0 8px 20px -6px rgba(0, 196, 167, 0.6);
+    }
+
+    .stepper-step.active {
+        color: #001c37;
+    }
+
+    .stepper-step.done .stepper-dot {
+        border-color: #00c4a7;
+        background: #e5faf6;
+        color: #02988a;
+    }
+
+    .stepper-step.done {
+        color: #02988a;
+    }
+
+    /* ============ Preview del comprobante (réplica ticket) ============ */
+    .invoice-preview {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 12px;
+        color: #000;
+        background: #ffffff;
+        border: 1px solid #c4c6ce;
+        border-radius: 6px;
+        padding: 24px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .invoice-preview .inv-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .invoice-preview .inv-table th {
+        border: 1px solid #000;
+        background: #f3f5f7;
+        padding: 5px 6px;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        text-align: left;
+    }
+
+    .invoice-preview .inv-table td {
+        border: 1px solid #000;
+        padding: 5px 6px;
+        vertical-align: top;
+    }
+
+    .invoice-preview .inv-totals td {
+        border: 1px solid #000;
+        padding: 4px 6px;
+    }
+
+    /* ============ Dispositivos del facturador (mockups CSS) ============ */
+    .device-phone {
+        background: #001c37;
+        border-radius: 1.5rem;
+        padding: 0.4rem;
+        border: 2px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 25px 50px -12px rgba(0, 14, 28, 0.5);
+    }
+
+    .device-phone .notch {
+        width: 2.5rem;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 9999px;
+        margin: 0 auto 0.4rem;
+    }
+
+    /* ============ Tarjetas de tipo de comprobante (simulador paso 1) ============ */
+    .tipo-card.selected {
+        border-color: #00c4a7 !important;
+        background: linear-gradient(180deg, rgba(0, 196, 167, 0.06) 0%, #ffffff 70%);
+        box-shadow: 0 16px 32px -16px rgba(0, 196, 167, 0.35);
+    }
+
+    .tipo-card.selected .tipo-card-check {
+        display: inline-flex;
+    }
+
+    /* ============ Toggle pill (moneda / forma de pago) ============ */
+    .toggle-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: var(--font-title);
+        font-weight: 600;
+        font-size: 13px;
+        color: #5a5a5a;
+        background: #ffffff;
+        border: 1px solid #c4c6ce;
+        border-radius: 0.75rem;
+        padding: 0.6rem 1.25rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .toggle-pill:hover {
+        border-color: #001c37;
+    }
+
+    .toggle-pill.active {
+        color: #001c37;
+        background: linear-gradient(135deg, #00c4a7, #22e0c4);
+        border-color: #00c4a7;
+        box-shadow: 0 6px 16px -6px rgba(0, 196, 167, 0.6);
+    }
+
+    /* QR decorativo */
+    .qr-box {
+        width: 72px;
+        height: 72px;
+        background:
+            linear-gradient(90deg, #001c37 25%, transparent 25%) 0 0/12px 12px,
+            linear-gradient(0deg, #001c37 25%, transparent 25%) 0 0/12px 12px,
+            #ffffff;
+        border: 1px solid #001c37;
+        border-radius: 4px;
+        outline: 4px solid #ffffff;
+    }
+
+    /* Animación pulso suave para elementos destacados */
+    .animate-bounce-slow {
+        animation: bounce-slow 3.5s ease-in-out infinite;
+    }
+
+    @keyframes bounce-slow {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    .animate-float {
+        animation: float 4.5s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-14px); }
+    }
 }
 
 @media (max-width: 767px) {
-    #navbar img {
-        width: 2.5rem !important;
-        height: 2.5rem !important;
-        max-width: 2.5rem !important;
-        max-height: 2.5rem !important;
+    #navbar .nav-logo {
+        width: 3rem;
+        height: 3rem;
     }
 
     #servicios,
-    #transformacion-digital,
-    #nosotros,
-    #blog,
-    #testimonios {
-        padding-top: 3rem;
-        padding-bottom: 3rem;
+    #facturador,
+    #recursos,
+    #diagnostico-orientacion,
+    #contacto {
+        padding-top: 3.5rem;
+        padding-bottom: 3.5rem;
+    }
+
+    .watermark-simulacion::before {
+        font-size: 13px;
+        padding: 6px 12px;
     }
 }

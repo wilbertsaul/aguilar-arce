@@ -32,16 +32,25 @@ class ManageSiteSettings extends Page implements HasForms
     public function mount(): void
     {
         $this->form->fill([
-            'hero_titulo' => Setting::get('hero_titulo', 'Transformamos números en'),
-            'hero_subtitulo' => Setting::get('hero_subtitulo', 'decisiones estratégicas.'),
-            'hero_descripcion' => Setting::get('hero_descripcion', 'Acompañamos a las empresas líderes en su evolución financiera y tecnológica mediante una visión audaz y datos precisos.'),
-            'cta_titulo' => Setting::get('cta_titulo', 'Impulsemos juntos el crecimiento.'),
-            'cta_descripcion' => Setting::get('cta_descripcion', 'Estamos listos para transformar su visión en resultados tangibles.'),
-            'cta_boton' => Setting::get('cta_boton', 'Agendar Consultoría'),
+            'hero_titulo' => Setting::get('hero_titulo', 'Seguridad contable.'),
+            'hero_subtitulo' => Setting::get('hero_subtitulo', 'Control tributario. Decisiones con información.'),
+            'hero_descripcion' => Setting::get('hero_descripcion', 'Integramos servicios contables, tributarios, laborales y herramientas digitales para mantener la información de su empresa bajo control.'),
             'clientes_count' => Setting::get('clientes_count', '500'),
             'proyectos_count' => Setting::get('proyectos_count', '1200'),
-            'anos_count' => Setting::get('anos_count', '15'),
+            'anos_count' => Setting::get('anos_count', '8'),
             'satisfaccion' => Setting::get('satisfaccion', '99'),
+            'contacto_horario' => Setting::get('contacto_horario', 'Lun–Vie · 8:30 a. m. – 6:30 p. m.'),
+            'contacto_telefono_1' => Setting::get('contacto_telefono_1', '+51 957 129 087'),
+            'contacto_telefono_2' => Setting::get('contacto_telefono_2', '+51 993 750 502'),
+            'contacto_whatsapp' => Setting::get('contacto_whatsapp', '51957129087'),
+            'contacto_email' => Setting::get('contacto_email', 'aguilaryarce.tributos@gmail.com'),
+            'sede_puerto_maldonado' => Setting::get('sede_puerto_maldonado', 'Av. Alameda Mz. F Lote 5'),
+            'sede_cusco' => Setting::get('sede_cusco', 'Jr. La Cultura'),
+            'empresa_ruc' => Setting::get('empresa_ruc', '20608492011'),
+            'facturador_titulo' => Setting::get('facturador_titulo', 'Facturación que se integra con su gestión contable.'),
+            'facturador_descripcion' => Setting::get('facturador_descripcion', 'Emita comprobantes electrónicos y centralice la información de su empresa para facilitar sus procesos administrativos y contables.'),
+            'facturador_combo_badge' => Setting::get('facturador_combo_badge', 'Ahorro 25%'),
+            'facturador_combo_texto' => Setting::get('facturador_combo_texto', 'Pregunta por el combo <strong>Factura + Contabilidad</strong> mensual sin costo adicional de software.'),
         ]);
     }
 
@@ -50,35 +59,19 @@ class ManageSiteSettings extends Page implements HasForms
         return $form
             ->schema([
                 Section::make('Hero')
-                    ->description('Texto de la sección principal')
+                    ->description('Texto de la sección principal de la portada')
                     ->columns(2)
                     ->schema([
                         TextInput::make('hero_titulo')
-                            ->label('Título')
+                            ->label('Título (línea 1)')
                             ->required(),
                         TextInput::make('hero_subtitulo')
-                            ->label('Subtítulo (cursiva)')
+                            ->label('Subtítulo (línea destacada)')
                             ->required(),
                         Textarea::make('hero_descripcion')
                             ->label('Descripción')
                             ->columnSpanFull()
                             ->rows(3),
-                    ]),
-                Section::make('CTA Final')
-                    ->description('Sección de llamada a la acción')
-                    ->columns(2)
-                    ->schema([
-                        TextInput::make('cta_titulo')
-                            ->label('Título')
-                            ->columnSpanFull()
-                            ->required(),
-                        Textarea::make('cta_descripcion')
-                            ->label('Descripción')
-                            ->columnSpanFull()
-                            ->rows(2),
-                        TextInput::make('cta_boton')
-                            ->label('Texto del botón')
-                            ->required(),
                     ]),
                 Section::make('Estadísticas')
                     ->description('Banner de estadísticas (contadores animados)')
@@ -100,6 +93,57 @@ class ManageSiteSettings extends Page implements HasForms
                             ->label('% Satisfacción')
                             ->numeric()
                             ->required(),
+                    ]),
+                Section::make('Contacto y Sedes')
+                    ->description('Datos visibles en la barra superior, sección de contacto y pie de página')
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('contacto_horario')
+                            ->label('Horario de atención')
+                            ->required()
+                            ->columnSpanFull(),
+                        TextInput::make('contacto_telefono_1')
+                            ->label('Línea directa 01')
+                            ->required(),
+                        TextInput::make('contacto_telefono_2')
+                            ->label('Línea directa 02')
+                            ->required(),
+                        TextInput::make('contacto_whatsapp')
+                            ->label('WhatsApp corporativo (solo dígitos, con código de país)')
+                            ->helperText('Ej: 51957129087 — se usa en los enlaces wa.me')
+                            ->required(),
+                        TextInput::make('contacto_email')
+                            ->label('Correo institucional')
+                            ->email()
+                            ->required(),
+                        TextInput::make('sede_puerto_maldonado')
+                            ->label('Sede Puerto Maldonado')
+                            ->required(),
+                        TextInput::make('sede_cusco')
+                            ->label('Sede Cusco')
+                            ->required(),
+                        TextInput::make('empresa_ruc')
+                            ->label('RUC de la empresa')
+                            ->required(),
+                    ]),
+                Section::make('Facturador (Simulador)')
+                    ->description('Textos de la sección promocional del facturador y del combo')
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('facturador_titulo')
+                            ->label('Título de la sección')
+                            ->required()
+                            ->columnSpanFull(),
+                        Textarea::make('facturador_descripcion')
+                            ->label('Descripción')
+                            ->rows(3)
+                            ->columnSpanFull(),
+                        TextInput::make('facturador_combo_badge')
+                            ->label('Badge del combo (ej: Ahorro 25%)'),
+                        TextInput::make('facturador_combo_texto')
+                            ->label('Texto del combo')
+                            ->helperText('Puede incluir HTML básico como <strong>.')
+                            ->columnSpanFull(),
                     ]),
             ])
             ->statePath('data');

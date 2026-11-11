@@ -9,18 +9,41 @@ class ServicioSeeder extends Seeder
 {
     public function run(): void
     {
+        // Re-seed completo: la estructura anidada cambia, así que truncamos y recreamos.
+        Servicio::truncate();
+
         Servicio::create([
-            'titulo' => 'Servicios Contables',
-            'slug' => 'servicios-contables',
-            'categoria' => 'Servicios Contables',
-            'descripcion_corta' => 'Gestión contable integral con precisión y transparencia. Transformamos datos financieros en información estratégica para la toma de decisiones.',
-            'descripcion_larga' => 'Nuestro equipo de expertos garantiza el registro contable preciso y oportuno, proporcionando una base sólida para la gestión financiera de su empresa.',
+            'titulo' => 'Outsourcing Contable Integral',
+            'slug' => 'outsourcing-contable-integral',
+            'categoria' => 'Contabilidad',
+            'descripcion_corta' => 'Diseñado para: PYMES, empresas en crecimiento y profesionales que desean delegar el 100% de la carga operativa y tributaria en manos de un equipo experto.',
+            'descripcion_larga' => null,
+            'flujo' => 'Documentos → Registro → Conciliación → Estados Financieros',
             'sub_servicios' => [
-                'Registro contable mensual.',
-                'Elaboración de estados financieros.',
-                'Conciliaciones bancarias.',
-                'Cierre contable mensual y anual.',
-                'Análisis financiero.',
+                [
+                    'titulo' => 'Gestión Contable y Financiera',
+                    'items' => [
+                        ['nombre' => 'Procesamiento de Información: Registro y categorización mensual de compras, ventas, caja y bancos.'],
+                        ['nombre' => 'Libros Contables Electrónicos: Elaboración y presentación puntual de Libros Electrónicos (PLE / SIRE).'],
+                        ['nombre' => 'Conciliación Bancaria: Control estricto de cuentas bancarias y cuentas de detracciones para evitar inconsistencias con la administración tributaria.'],
+                        ['nombre' => 'Informes de Gestión: Entrega mensual de un reporte ejecutivo básico (Estado de Ganancias y Pérdidas) en lenguaje sencillo para evaluar la salud real del negocio.'],
+                    ],
+                ],
+                [
+                    'titulo' => 'Declaración y Cumplimiento Tributario',
+                    'items' => [
+                        ['nombre' => 'Liquidación de Impuestos: Cálculo y presentación mensual de Impuesto General a la Ventas (IGV) e Impuesto a la Renta.'],
+                        ['nombre' => 'Declaración Jurada Anual: Elaboración, balance de cierre y presentación del Impuesto a la Renta Anual.'],
+                        ['nombre' => 'Atención de Notificaciones: Gestión y respuesta rápida ante esquemas de citación, esquelas de inducción o cartas inductivas de la SUNAT.'],
+                    ],
+                ],
+                [
+                    'titulo' => 'Planilla y Gestión Laboral (Opcional / Add-on)',
+                    'items' => [
+                        ['nombre' => 'PLAME y T-Registro: Alta y baja de trabajadores, emisión de boletas de pago y cálculo de aportes (AFP/ONP, EsSalud).'],
+                        ['nombre' => 'Cálculo de Beneficios Sociales: Determinación de gratificaciones, CTS, vacaciones y liquidaciones.'],
+                    ],
+                ],
             ],
             'icono' => 'account_balance',
             'orden' => 1,
@@ -28,79 +51,58 @@ class ServicioSeeder extends Seeder
         ]);
 
         Servicio::create([
-            'titulo' => 'Servicios Tributarios',
-            'slug' => 'servicios-tributarios',
-            'categoria' => 'Servicios Tributarios',
-            'descripcion_corta' => 'Cumplimiento tributario efectivo y estratégico. Minimizamos riesgos y optimizamos la carga fiscal de su empresa.',
-            'descripcion_larga' => 'Le asesoramos en todas sus obligaciones tributarias, garantizando el cumplimiento normativo y la optimización de su posición fiscal.',
+            'titulo' => 'Auditoría',
+            'slug' => 'auditoria',
+            'categoria' => 'Auditoría',
+            'descripcion_corta' => 'Evaluación crítica y constructiva para garantizar la integridad de sus operaciones. Mitigamos riesgos mediante auditorías de alto impacto estratégico.',
+            'descripcion_larga' => null,
+            'flujo' => 'Planeamiento → Trabajo de Campo → Sustento → Informe',
             'sub_servicios' => [
-                'Declaración mensual de impuestos (IGV, Renta).',
-                'Declaración anual del Impuesto a la Renta.',
-                'Libros electrónicos (PLE).',
-                'Atención de fiscalizaciones de SUNAT.',
-                'Fraccionamientos y aplazamientos.',
-                'Levantamiento de restricciones y actualización de RUC.',
+                [
+                    'titulo' => 'Evaluación de Riesgos',
+                    'items' => [
+                        ['nombre' => 'Identificación y análisis de riesgos financieros y operativos.'],
+                        ['nombre' => 'Diseño de controles internos efectivos.'],
+                    ],
+                ],
+                [
+                    'titulo' => 'Cumplimiento Normativo',
+                    'items' => [
+                        ['nombre' => 'Revisión de cumplimiento de normativas legales y tributarias.'],
+                        ['nombre' => 'Emisión de informes de cumplimiento.'],
+                    ],
+                ],
             ],
-            'icono' => 'receipt',
+            'icono' => 'security',
             'orden' => 2,
             'activo' => true,
         ]);
 
         Servicio::create([
-            'titulo' => 'Servicios Laborales',
-            'slug' => 'servicios-laborales',
-            'categoria' => 'Servicios Laborales',
-            'descripcion_corta' => 'Administración laboral completa y cumplimiento normativo. Protegemos su empresa y aseguramos el bienestar de su equipo.',
-            'descripcion_larga' => 'Gestionamos todos los aspectos laborales de su empresa, desde planillas hasta beneficios sociales, garantizando el cumplimiento legal.',
+            'titulo' => 'Transformación Digital',
+            'slug' => 'transformacion-digital',
+            'categoria' => 'Tecnología',
+            'descripcion_corta' => 'Implementación de arquitecturas digitales que automatizan el valor. Desde ERPs inteligentes hasta análisis de datos en tiempo real.',
+            'descripcion_larga' => null,
+            'flujo' => 'Diagnóstico → Implementación → Integración → Control',
             'sub_servicios' => [
-                'Elaboración de planillas.',
-                'T-Registro.',
-                'PLAME.',
-                'AFP Net.',
-                'Cálculo de beneficios sociales (CTS, gratificaciones, vacaciones).',
-                'Liquidaciones de beneficios sociales.',
-                'Contratos de trabajo.',
+                [
+                    'titulo' => 'Infraestructura Digital',
+                    'items' => [
+                        ['nombre' => 'Implementación de sistemas ERP y software de gestión.'],
+                        ['nombre' => 'Migración a la nube y modernización tecnológica.'],
+                    ],
+                ],
+                [
+                    'titulo' => 'Analítica de Datos',
+                    'items' => [
+                        ['nombre' => 'Dashboards y reportes automatizados en tiempo real.'],
+                        ['nombre' => 'Inteligencia de negocio para la toma de decisiones.'],
+                    ],
+                ],
             ],
-            'icono' => 'groups',
+            'icono' => 'devices',
             'orden' => 3,
-            'activo' => true,
-        ]);
-
-        Servicio::create([
-            'titulo' => 'Constitución y Asesoría Empresarial',
-            'slug' => 'constitucion-asesoria-empresarial',
-            'categoria' => 'Constitución y Asesoría Empresarial',
-            'descripcion_corta' => 'Acompañamiento integral desde la constitución hasta el crecimiento de su negocio. Su socio estratégico confiable.',
-            'descripcion_larga' => 'Le guiamos en cada paso del proceso de constitución y desarrollo empresarial, brindando asesoría experta para el éxito de su emprendimiento.',
-            'sub_servicios' => [
-                'Constitución de empresas.',
-                'Elección del régimen tributario.',
-                'Trámite de RUC.',
-                'Licencias y asesoría para el inicio de actividades.',
-                'Asesoría permanente para emprendedores.',
-            ],
-            'icono' => 'handshake',
-            'orden' => 4,
-            'activo' => true,
-        ]);
-
-        Servicio::create([
-            'titulo' => 'Otros Servicios',
-            'slug' => 'otros-servicios',
-            'categoria' => 'Otros Servicios',
-            'descripcion_corta' => 'Soluciones contables y administrativas especializadas. Completamos su operación con servicios complementarios de alto valor.',
-            'descripcion_larga' => 'Ofrecemos una gama de servicios adicionales diseñados para cubrir todas las necesidades administrativas y financieras de su empresa.',
-            'sub_servicios' => [
-                'Emisión de facturas electrónicas.',
-                'Elaboración de reportes financieros.',
-                'Presupuestos y flujo de caja.',
-                'Costeo de proyectos.',
-                'Asesoría para cooperativas y asociaciones.',
-                'Elaboración de reglamentos y políticas administrativas.',
-                'Auditoría interna y revisión de procesos.',
-            ],
-            'icono' => 'lightbulb',
-            'orden' => 5,
             'activo' => true,
         ]);
     }

@@ -49,7 +49,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.toggleMenu = function () {
         var menu = document.getElementById('mobile-menu');
-        if (menu) menu.classList.toggle('hidden');
+        var toggle = document.getElementById('menu-toggle');
+        if (menu) {
+            menu.classList.toggle('hidden');
+            var isOpen = !menu.classList.contains('hidden');
+            if (toggle) {
+                toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            }
+        }
     };
 
     window.addEventListener('pageshow', function () {
@@ -58,4 +65,38 @@ document.addEventListener('DOMContentLoaded', () => {
             menu.classList.add('hidden');
         }
     });
+
+    // Checksum anti-spam: cualquier formulario con input js_checksum se marca como "cargado por JS"
+    document.querySelectorAll('input[name="js_checksum"]').forEach(function (el) {
+        el.value = '2';
+    });
+
+    // ===== Formulario de evaluación preliminar (home) =====
+
+    // Selección de etapa (stage cards)
+    window.selectStageCard = function (card, stageKey) {
+        document.querySelectorAll('.stage-card').forEach(function (el) {
+            el.classList.remove('active');
+            el.setAttribute('aria-pressed', 'false');
+        });
+        card.classList.add('active');
+        card.setAttribute('aria-pressed', 'true');
+
+        var etapaInput = document.getElementById('etapa-value');
+        if (etapaInput) {
+            etapaInput.value = stageKey;
+        }
+    };
+
+    // Chips de requerimientos (multi-selección)
+    window.toggleNeedChip = function (chip) {
+        chip.classList.toggle('active');
+        var input = document.getElementById('requerimientos-value');
+        if (!input) return;
+
+        var active = Array.from(document.querySelectorAll('.chip.active')).map(function (el) {
+            return el.textContent.trim();
+        });
+        input.value = active.join(', ');
+    };
 });

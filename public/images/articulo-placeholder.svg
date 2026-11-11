@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#001c37"/>
+      <stop offset="1" stop-color="#0a2a4a"/>
+    </linearGradient>
+    <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#ffffff" opacity="0.08"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <rect width="800" height="500" fill="url(#dots)"/>
+  <circle cx="640" cy="90" r="150" fill="#00C4A7" opacity="0.08"/>
+  <circle cx="140" cy="420" r="110" fill="#00C4A7" opacity="0.06"/>
+  <text x="400" y="245" font-family="Montserrat, Arial, sans-serif" font-size="64" font-weight="800" fill="#00C4A7" text-anchor="middle" letter-spacing="8">A&amp;A</text>
+  <text x="400" y="292" font-family="Inter, Arial, sans-serif" font-size="15" fill="#8fb3d9" text-anchor="middle" letter-spacing="5" opacity="0.8">PUBLICACIÓN</text>
+  <rect x="290" y="322" width="220" height="6" rx="3" fill="#ffffff" opacity="0.15"/>
+  <rect x="330" y="342" width="140" height="6" rx="3" fill="#ffffff" opacity="0.1"/>
+</svg>

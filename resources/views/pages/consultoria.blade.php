@@ -145,15 +145,22 @@
                         </form>
                     </div>
 
-                    {{-- Office image --}}
-                    <div class="hidden lg:block mt-8 rounded-2xl border border-outline-variant/20 shadow-lg overflow-hidden lg:absolute lg:-bottom-24 lg:-left-24 lg:w-72 lg:mt-0">
-                        <div class="aspect-[4/3] relative">
-                            <img alt="Sede Central Corporativa" class="object-cover w-full h-full brightness-[0.85] opacity-75" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJcwBqhkFwWRWtDC3Im-Z0DQ-Lhng4CQ2X2xnrM_-5qifK6qmjeYBr__g9N0XflBfVkgqcql2kf1pORp8E8wKhXKoxOYOLahiMjDh2wF1tFfO18exVX9mZLp0USV2X3jplejRQhwHJJedapvRipRo9cKbuTo0c0OI1dG2wCEfB8nbVc7HsrpP2M1fhZQlxLMksvY0bFmzHLW23EvEXUg4gZGZTe8x1KYWJquheycIOpnq6fXd_77ooqg">
-                            <div class="absolute inset-0 bg-gradient-to-t from-navy/60 to-transparent"></div>
-                            <div class="absolute bottom-4 left-4 text-white">
-                                <p class="text-[8px] uppercase tracking-widest mb-1 font-semibold">GLOBAL HQ</p>
-                                <p class="text-xs font-semibold">Excelencia Corporativa</p>
+                    {{-- Panel informativo (CSS local, sin imágenes externas) --}}
+                    <div class="hidden lg:block mt-8 rounded-2xl border border-outline-variant/20 shadow-lg overflow-hidden lg:absolute lg:-bottom-24 lg:-left-24 lg:w-72 lg:mt-0 bg-navy relative">
+                        <div class="absolute inset-0 pattern-dots opacity-40"></div>
+                        <div class="relative p-5">
+                            <div class="flex items-center gap-2.5 mb-4">
+                                <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center shrink-0">
+                                    <img src="{{ asset('images/AA Consultores.png') }}" alt="Aguilar & Arce" class="w-full h-full object-contain p-0.5">
+                                </div>
+                                <span class="text-[9px] uppercase tracking-[0.2em] text-teal-accent font-semibold">GLOBAL HQ</span>
                             </div>
+                            <p class="text-xs text-white/80 font-semibold">Excelencia Corporativa</p>
+                            <p class="text-[11px] text-white/50 mt-1.5 leading-relaxed">Atención presencial en Puerto Maldonado y Cusco. Cobertura remota en todo el Perú.</p>
+                        </div>
+                        <div class="relative bg-teal-accent/10 border-t border-teal-accent/20 px-5 py-3 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-teal-bright">verified</span>
+                            <p class="text-[10px] text-teal-bright font-semibold">Profesionales colegiados</p>
                         </div>
                     </div>
                 </div>

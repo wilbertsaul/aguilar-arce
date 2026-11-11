@@ -8,7 +8,11 @@ class Consultoria extends Model
 {
     protected $fillable = [
         'nombre',
+        'empresa_ruc',
         'email',
+        'whatsapp',
+        'etapa',
+        'requerimientos',
         'mensaje',
     ];
 }

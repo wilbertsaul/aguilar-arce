@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\ConsultoriaRecibida;
 use App\Models\Consultoria;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
@@ -23,16 +24,14 @@ class ConsultoriaController extends Controller
 
     public function store(Request $request)
     {
-        // Layer 1: Honeypot validation (Spatie package handles this automatically via middleware, but we add a manual backup)
+        // Layer 1: Honeypot validation (hidden field that bots fill but humans don't)
         if (! empty($request->get('website_url'))) {
             Log::warning('Honeypot triggered', [
                 'ip' => $request->ip(),
                 'user_agent' => $request->userAgent(),
             ]);
 
-            return redirect()
-                ->route('consultoria.show')
-                ->with('success', '¡Solicitud enviada correctamente! Nos comunicaremos contigo pronto.');
+            return $this->successRedirect($request);
         }
 
         // Layer 2: JavaScript checksum - must be 2 (set by JS on page load)
@@ -42,9 +41,7 @@ class ConsultoriaController extends Controller
                 'value' => $request->get('js_checksum'),
             ]);
 
-            return redirect()
-                ->route('consultoria.show')
-                ->with('success', '¡Solicitud enviada correctamente! Nos comunicaremos contigo pronto.');
+            return $this->successRedirect($request);
         }
 
         // Layer 3: Time trap - reject if submitted in less than 5 seconds
@@ -57,16 +54,12 @@ class ConsultoriaController extends Controller
                     'time_taken' => $timeTaken,
                 ]);
 
-                return redirect()
-                    ->route('consultoria.show')
-                    ->with('success', '¡Solicitud enviada correctamente! Nos comunicaremos contigo pronto.');
+                return $this->successRedirect($request);
             }
         } catch (\Exception $e) {
             Log::warning('Invalid form timestamp', ['ip' => $request->ip()]);
 
-            return redirect()
-                ->route('consultoria.show')
-                ->with('success', '¡Solicitud enviada correctamente! Nos comunicaremos contigo pronto.');
+            return $this->successRedirect($request);
         }
 
         // Layer 4: Rate limiting - max 5 submissions per IP per hour
@@ -88,29 +81,62 @@ class ConsultoriaController extends Controller
                 'message' => substr($request->get('mensaje', ''), 0, 200),
             ]);
 
-            return redirect()
-                ->route('consultoria.show')
-                ->with('success', '¡Solicitud enviada correctamente! Nos comunicaremos contigo pronto.');
+            return $this->successRedirect($request);
         }
 
         // Standard Laravel validation
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'email' => 'required|email|max:255',
-            'mensaje' => 'required|string|max:2000',
+            'empresa_ruc' => 'nullable|string|max:255',
+            'whatsapp' => 'nullable|string|max:30',
+            'etapa' => 'nullable|string|in:empezando,operando,crecer',
+            'requerimientos' => 'nullable|string|max:500',
+            'mensaje' => 'nullable|string|max:2000',
         ]);
+
+        // El formulario de evaluación preliminar (home) no envía mensaje libre:
+        // componemos uno con la etapa y requerimientos seleccionados.
+        if (empty($validated['mensaje'])) {
+            $etapas = [
+                'empezando' => 'Estoy empezando',
+                'operando' => 'Ya estoy operando',
+                'crecer' => 'Quiero crecer y controlar',
+            ];
+
+            $validated['mensaje'] = 'Evaluación preliminar desde la web — Etapa: '
+                .($etapas[$validated['etapa'] ?? ''] ?? 'No indicada')
+                .'. Requerimientos: '.($validated['requerimientos'] ?? 'No indicados').'.';
+        }
 
         // Record successful submission for rate limiting
         Cache::put($ipKey, $submissions + 1, now()->addHour());
 
         $consultoria = Consultoria::create($validated);
 
-        Mail::to('aguilaryarceconsultores@gmail.com')
+        Mail::to(Setting::get('contacto_email', 'aguilaryarceconsultores@gmail.com'))
             ->send(new ConsultoriaRecibida($consultoria));
+
+        return $this->successRedirect($request);
+    }
+
+    /**
+     * Redirige de vuelta al formulario correcto según el origen del envío.
+     * Los intentos de spam reciben el mismo mensaje de éxito (silencio).
+     */
+    private function successRedirect(Request $request)
+    {
+        $success = '¡Solicitud enviada correctamente! Nos comunicaremos contigo pronto.';
+
+        if ($request->input('source') === 'home') {
+            return redirect()
+                ->to(route('home').'#diagnostico-orientacion')
+                ->with('success', $success);
+        }
 
         return redirect()
             ->route('consultoria.show')
-            ->with('success', '¡Solicitud enviada correctamente! Nos comunicaremos contigo pronto.');
+            ->with('success', $success);
     }
 
     private function isSpamContent(Request $request): bool

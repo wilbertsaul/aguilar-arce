@@ -154,7 +154,7 @@
             @forelse($articulos as $articulo)
             <a href="{{ route('articulo.show', $articulo->slug) }}" class="blog-card">
                 <div class="blog-card-img">
-                    <div class="blog-card-img-bg" style="background-image: url('{{ $articulo->imagen ?? 'https://lh3.googleusercontent.com/aida-public/AB6AXuCBuuj0NGt4VNyE5sDWrp8_EHS90-1rZoaz_nA52qI99mSkLdSoTS8F9HClGCmDtB8j1DPbmmEhnD7MGIJDH-b2ggUfuSDjIRkDT6tEXRiE7T9DrTTEMR2I5rOnGb4jDRxfno5dm6LuZdZsAk8Cz77MKMKHX7UNjbChIqRdphvNZ7h_0YVCigsHcGaM0aFGaqUwREkWqX-tKdhp3j1F6L9qbW0InCJ8UaaKSrbGdFdJU2N7xmwidMhCePdnqy77J97zZ3zsWj2CROmQ' }}')"></div>
+                    <div class="blog-card-img-bg" style="background-image: url('{{ $articulo->imagen ?? asset('images/articulo-placeholder.svg') }}')"></div>
                 </div>
                 <div class="blog-card-body">
                     <span class="blog-card-cat">{{ $articulo->categoria }}</span>

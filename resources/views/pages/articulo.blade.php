@@ -465,7 +465,7 @@
                     @foreach($relacionados as $relacionado)
                     <a class="sidebar-card" href="{{ route('articulo.show', $relacionado->slug) }}">
                         <div class="sidebar-card-img">
-                            <img src="{{ $relacionado->imagen ?? 'https://lh3.googleusercontent.com/aida-public/AB6AXuCBuuj0NGt4VNyE5sDWrp8_EHS90-1rZoaz_nA52qI99mSkLdSoTS8F9HClGCmDtB8j1DPbmmEhnD7MGIJDH-b2ggUfuSDjIRkDT6tEXRiE7T9DrTTEMR2I5rOnGb4jDRxfno5dm6LuZdZsAk8Cz77MKMKHX7UNjbChIqRdphvNZ7h_0YVCigsHcGaM0aFGaqUwREkWqX-tKdhp3j1F6L9qbW0InCJ8UaaKSrbGdFdJU2N7xmwidMhCePdnqy77J97zZ3zsWj2CROmQ' }}" alt="{{ $relacionado->titulo }}">
+                            <img src="{{ $relacionado->imagen ?? asset('images/articulo-placeholder.svg') }}" alt="{{ $relacionado->titulo }}">
                         </div>
                         <div class="sidebar-card-text">
                             <span class="sidebar-card-cat">{{ $relacionado->categoria }}</span>
