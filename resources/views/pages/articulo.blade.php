@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $articulo->titulo . ' | Aguilar & Arce')
+@section('title', $articulo->titulo . ' | BYT SOLUTION')
 
 @section('content')
 <style>

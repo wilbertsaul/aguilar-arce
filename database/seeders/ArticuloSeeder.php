@@ -24,7 +24,7 @@ class ArticuloSeeder extends Seeder
 <p>Además, la integración con sistemas de inteligencia artificial permite pronósticos de flujo de caja con una precisión sin precedentes, lo que habilita decisiones de inversión y financiamiento más informadas.</p>
 <h2>Desafíos pendientes</h2>
 <p>Sin embargo, la transición no está exenta de riesgos. La ciberseguridad, la regulación transfronteriza y la interoperabilidad entre sistemas siguen siendo los principales obstáculos que las corporaciones deben abordar estratégicamente.</p>
-<p>En Aguilar &amp; Arce, hemos acompañado a múltiples empresas en este proceso de transformación, diseñando hojas de ruta que equilibran la innovación tecnológica con la gestión prudente de riesgos.</p>',
+<p>En BYT SOLUTION, hemos acompañado a múltiples empresas en este proceso de transformación, diseñando hojas de ruta que equilibran la innovación tecnológica con la gestión prudente de riesgos.</p>',
             'categoria' => 'Tendencias 2024',
             'destacado' => true,
             'activo' => true,
@@ -75,7 +75,7 @@ class ArticuloSeeder extends Seeder
 </ul>
 <h2>Caso práctico</h2>
 <blockquote><p>Una empresa manufacturera con operaciones en México y Colombia implementó un programa de cobertura que combinó forwards a 90 días con opciones out-of-the-money. El resultado: una reducción del 68% en la volatilidad de sus flujos de caja en moneda local.</p></blockquote>
-<p>En Aguilar &amp; Arce, diseñamos programas de cobertura personalizados que se integran con la estrategia financiera global de cada organización, considerando su apetito de riesgo, horizonte temporal y estructura operativa.</p>',
+<p>En BYT SOLUTION, diseñamos programas de cobertura personalizados que se integran con la estrategia financiera global de cada organización, considerando su apetito de riesgo, horizonte temporal y estructura operativa.</p>',
             'categoria' => 'Global Markets',
             'destacado' => false,
             'activo' => true,

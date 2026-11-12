@@ -15,6 +15,9 @@ export default defineConfig({
                 bunny('Montserrat', {
                     weights: [500, 600, 700, 800],
                 }),
+                bunny('Plus Jakarta Sans', {
+                    weights: [400, 600, 800],
+                }),
             ],
         }),
         tailwindcss(),

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Aguilar & Arce Consultores | Contabilidad · Tributación · Auditoría')
+@section('title', 'BYT SOLUTION | Contabilidad · Tributación · Auditoría')
 
 @section('content')
     @include('components.hero')

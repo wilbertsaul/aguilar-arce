@@ -15,14 +15,15 @@
         <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-white/10">
             {{-- Bloque institucional --}}
             <div class="md:col-span-4 space-y-4">
-                <div class="flex items-center gap-3.5">
-                    <div class="w-14 h-14 rounded-xl bg-white flex items-center justify-center overflow-hidden border border-white/20 shadow-sm shrink-0">
-                        <img src="{{ asset('images/AA Consultores.png') }}" alt="Aguilar & Arce Consultores" class="w-full h-full object-contain p-1">
-                    </div>
-                    <div>
-                        <span class="font-title font-bold text-[15px] tracking-tight text-white block">AGUILAR &amp; ARCE CONSULTORES</span>
-                        <span class="text-[10px] tracking-[0.18em] text-grey-metallic font-semibold uppercase block mt-0.5">Contabilidad · Tributación · Auditoría</span>
-                    </div>
+                <div class="space-y-2">
+                    <img
+                        src="{{ asset('images/bytsolution/bytsolution-logotipo-blanco.png') }}"
+                        alt="BYT SOLUTION"
+                        width="1005"
+                        height="240"
+                        class="h-9 md:h-10 w-auto"
+                    >
+                    <span class="block text-[9px] tracking-[0.18em] text-grey-metallic font-semibold uppercase">Contabilidad · Tributación · Auditoría</span>
                 </div>
                 <p class="text-xs text-white/60 leading-relaxed">
                     Soluciones profesionales y herramientas digitales para mantener el control de su empresa.
@@ -71,7 +72,7 @@
 
         {{-- Copyright --}}
         <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-white/50 gap-3">
-            <p>© {{ date('Y') }} Aguilar &amp; Arce Consultores. Todos los derechos reservados.</p>
+            <p>© {{ date('Y') }} BYT SOLUTION. Todos los derechos reservados.</p>
             <p class="text-[11px] text-grey-metallic">Rigor normativo y acompañamiento estratégico.</p>
         </div>
     </div>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Agendar Consultoría | Aguilar & Arce')
+@section('title', 'Agendar Consultoría | BYT SOLUTION')
 
 @section('content')
 <section class="relative min-h-screen flex items-center overflow-hidden">
@@ -58,7 +58,7 @@
 
                         {{-- Logo separator --}}
                         <div class="flex items-center gap-4 mb-10">
-                            <img alt="Aguilar & Arce Icon" class="h-8 w-auto grayscale opacity-40" src="{{ asset('images/AA Consultores.png') }}">
+                            <img alt="BYT SOLUTION" class="h-7 w-auto grayscale opacity-40" src="{{ asset('images/bytsolution/bytsolution-logotipo.png') }}">
                             <span class="h-[1px] flex-1 bg-outline-variant/30"></span>
                         </div>
 
@@ -150,9 +150,7 @@
                         <div class="absolute inset-0 pattern-dots opacity-40"></div>
                         <div class="relative p-5">
                             <div class="flex items-center gap-2.5 mb-4">
-                                <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center shrink-0">
-                                    <img src="{{ asset('images/AA Consultores.png') }}" alt="Aguilar & Arce" class="w-full h-full object-contain p-0.5">
-                                </div>
+                                <img src="{{ asset('images/bytsolution/bytsolution-icono-blanco.png') }}" alt="BYT SOLUTION" class="w-10 h-10 shrink-0">
                                 <span class="text-[9px] uppercase tracking-[0.2em] text-teal-accent font-semibold">GLOBAL HQ</span>
                             </div>
                             <p class="text-xs text-white/80 font-semibold">Excelencia Corporativa</p>

@@ -28,6 +28,16 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    /*
+    | Consulta DNI / RUC (RENIEC y SUNAT) vía json.pe.
+    | Token propio de BYTFACT; no se expone nunca al navegador.
+    */
+    'jsonpe' => [
+        'key' => env('JSONPE_API_KEY'),
+        'base_url' => env('JSONPE_BASE_URL', 'https://api.json.pe/api'),
+        'timeout' => (int) env('JSONPE_TIMEOUT', 15),
+    ],
+
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),

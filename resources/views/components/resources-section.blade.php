@@ -5,7 +5,7 @@
     <div class="max-w-container-max mx-auto px-gutter">
         <div class="max-w-2xl mb-12">
             <span class="text-caps-micro font-title font-bold uppercase tracking-[0.2em] text-teal-deep block mb-3 reveal-on-scroll">CONOCIMIENTO APLICADO</span>
-            <h2 class="text-headline-lg font-title font-bold text-navy tracking-tight reveal-on-scroll">Centro de Recursos Aguilar &amp; Arce</h2>
+            <h2 class="text-headline-lg font-title font-bold text-navy tracking-tight reveal-on-scroll">Centro de Recursos BYT SOLUTION</h2>
             <p class="text-body-md text-on-surface-variant mt-3 reveal-on-scroll">
                 Información, herramientas y aprendizaje para gestionar mejor su empresa.
             </p>
@@ -58,7 +58,7 @@
                         <h3 class="font-title font-bold text-base text-navy">2. UTILITARIOS</h3>
                     </div>
                     <p class="text-[13px] text-on-surface-variant mb-4">
-                        Excel, formatos, calculadoras, checklists, controles y herramientas Aguilar &amp; Arce.
+                        Excel, formatos, calculadoras, checklists, controles y herramientas BYT SOLUTION.
                     </p>
                     <ul class="space-y-2.5 text-[12px]">
                         <li class="p-2.5 bg-surface-variant rounded-lg border border-outline-variant/60 flex items-center justify-between gap-2">
@@ -78,7 +78,7 @@
                     </ul>
                 </div>
                 <div class="pt-4 mt-6 border-t border-outline-variant/60">
-                    <a href="https://wa.me/{{ $whatsapp }}?text=Hola,%20deseo%20recibir%20las%20plantillas%20y%20utilitarios%20de%20Aguilar%20%26%20Arce." target="_blank" rel="noopener noreferrer" class="text-xs font-title font-bold text-navy hover:text-teal-deep inline-flex items-center gap-1.5 transition-colors">
+                    <a href="https://wa.me/{{ $whatsapp }}?text=Hola,%20deseo%20recibir%20las%20plantillas%20y%20utilitarios%20de%20BYT%20SOLUTION." target="_blank" rel="noopener noreferrer" class="text-xs font-title font-bold text-navy hover:text-teal-deep inline-flex items-center gap-1.5 transition-colors">
                         Solicitar plantillas y macros
                         <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
                     </a>
@@ -113,7 +113,7 @@
                     </ul>
                 </div>
                 <div class="pt-4 mt-6 border-t border-outline-variant/60">
-                    <a href="https://wa.me/{{ $whatsapp }}?text=Hola,%20deseo%20acceder%20a%20la%20Academia%20de%20videos%20de%20Aguilar%20%26%20Arce." target="_blank" rel="noopener noreferrer" class="text-xs font-title font-bold text-navy hover:text-teal-deep inline-flex items-center gap-1.5 transition-colors">
+                    <a href="https://wa.me/{{ $whatsapp }}?text=Hola,%20deseo%20acceder%20a%20la%20Academia%20de%20videos%20de%20BYT%20SOLUTION." target="_blank" rel="noopener noreferrer" class="text-xs font-title font-bold text-navy hover:text-teal-deep inline-flex items-center gap-1.5 transition-colors">
                         Ir a la videoteca formativa
                         <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
                     </a>

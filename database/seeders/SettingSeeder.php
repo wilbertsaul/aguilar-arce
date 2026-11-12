@@ -30,9 +30,10 @@ class SettingSeeder extends Seeder
         Setting::set('sede_cusco', 'Jr. La Cultura');
         Setting::set('empresa_ruc', '20608492011');
 
-        // Facturador (simulador)
-        Setting::set('facturador_titulo', 'Facturación que se integra con su gestión contable.');
-        Setting::set('facturador_descripcion', 'Emita comprobantes electrónicos y centralice la información de su empresa para facilitar sus procesos administrativos y contables.');
+        // BYTFACT (simulador del facturador)
+        Setting::set('facturador_titulo', 'Factura fácil. Crece con respaldo.');
+        Setting::set('facturador_descripcion', 'Sistema de facturación electrónica con un equipo contable profesional a tu lado.');
+        Setting::set('facturador_combo_titulo', 'Plan Integrado');
         Setting::set('facturador_combo_badge', 'Ahorro 25%');
         Setting::set('facturador_combo_texto', 'Pregunta por el combo <strong>Factura + Contabilidad</strong> mensual sin costo adicional de software.');
     }

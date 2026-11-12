@@ -28,7 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandName('Aguilar & Arce')
+            ->brandName('BYT SOLUTION')
             ->colors([
                 'primary' => Color::hex('#000000'),
                 'gray' => Color::hex('#595f66'),

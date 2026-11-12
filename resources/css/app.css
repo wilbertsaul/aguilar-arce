@@ -24,6 +24,14 @@
     --color-amber-accent: #dd6b20;
     --color-amber-container: #fdeede;
 
+    /* ===== BYTFACT (marca del facturador) ===== */
+    --color-byt-blue: #1e4fa3;
+    --color-byt-navy: #163a73;
+    --color-byt-grey: #5e6b78;
+    --color-byt-line: #c9d1d9;
+    --color-byt-mist: #f4f6f9;
+    --color-byt-blue-soft: #e8eef8;
+
     /* WhatsApp corporativo */
     --color-whatsapp: #25d366;
     --color-whatsapp-dark: #1da851;
@@ -59,6 +67,7 @@
 
     --font-sans: 'Inter', sans-serif;
     --font-title: 'Montserrat', 'Inter', sans-serif;
+    --font-byt: 'Plus Jakarta Sans', 'Inter', Arial, sans-serif;
 
     --text-display-xl: 72px;
     --text-display-xl--line-height: 1.05;
@@ -373,12 +382,12 @@
         max-width: 90%;
     }
 
-    /* ============ Stepper del simulador ============ */
+    /* ============ Stepper del simulador (BYTFACT) ============ */
     .stepper-step {
         display: flex;
         align-items: center;
         gap: 0.6rem;
-        color: #8c8c8c;
+        color: #5e6b78;
         transition: color 0.3s ease;
     }
 
@@ -389,34 +398,34 @@
         width: 2.25rem;
         height: 2.25rem;
         border-radius: 9999px;
-        border: 2px solid #c4c6ce;
+        border: 2px solid #c9d1d9;
         background: #ffffff;
-        font-family: var(--font-title);
-        font-weight: 700;
+        font-family: var(--font-byt);
+        font-weight: 800;
         font-size: 13px;
         flex-shrink: 0;
         transition: all 0.3s ease;
     }
 
     .stepper-step.active .stepper-dot {
-        border-color: #00c4a7;
-        background: linear-gradient(135deg, #00c4a7, #22e0c4);
-        color: #001c37;
-        box-shadow: 0 8px 20px -6px rgba(0, 196, 167, 0.6);
+        border-color: #1e4fa3;
+        background: linear-gradient(135deg, #1e4fa3, #163a73);
+        color: #ffffff;
+        box-shadow: 0 8px 20px -6px rgba(30, 79, 163, 0.55);
     }
 
     .stepper-step.active {
-        color: #001c37;
+        color: #163a73;
     }
 
     .stepper-step.done .stepper-dot {
-        border-color: #00c4a7;
-        background: #e5faf6;
-        color: #02988a;
+        border-color: #1e4fa3;
+        background: #e8eef8;
+        color: #1e4fa3;
     }
 
     .stepper-step.done {
-        color: #02988a;
+        color: #1e4fa3;
     }
 
     /* ============ Preview del comprobante (réplica ticket) ============ */
@@ -475,11 +484,11 @@
         margin: 0 auto 0.4rem;
     }
 
-    /* ============ Tarjetas de tipo de comprobante (simulador paso 1) ============ */
+    /* ============ Tarjetas de tipo de comprobante (simulador paso comprobante) ============ */
     .tipo-card.selected {
-        border-color: #00c4a7 !important;
-        background: linear-gradient(180deg, rgba(0, 196, 167, 0.06) 0%, #ffffff 70%);
-        box-shadow: 0 16px 32px -16px rgba(0, 196, 167, 0.35);
+        border-color: #1e4fa3 !important;
+        background: linear-gradient(180deg, rgba(30, 79, 163, 0.06) 0%, #ffffff 70%);
+        box-shadow: 0 16px 32px -16px rgba(30, 79, 163, 0.35);
     }
 
     .tipo-card.selected .tipo-card-check {
@@ -491,12 +500,12 @@
         display: inline-flex;
         align-items: center;
         gap: 0.4rem;
-        font-family: var(--font-title);
+        font-family: var(--font-byt);
         font-weight: 600;
         font-size: 13px;
-        color: #5a5a5a;
+        color: #5e6b78;
         background: #ffffff;
-        border: 1px solid #c4c6ce;
+        border: 1px solid #c9d1d9;
         border-radius: 0.75rem;
         padding: 0.6rem 1.25rem;
         cursor: pointer;
@@ -504,14 +513,14 @@
     }
 
     .toggle-pill:hover {
-        border-color: #001c37;
+        border-color: #1e4fa3;
     }
 
     .toggle-pill.active {
-        color: #001c37;
-        background: linear-gradient(135deg, #00c4a7, #22e0c4);
-        border-color: #00c4a7;
-        box-shadow: 0 6px 16px -6px rgba(0, 196, 167, 0.6);
+        color: #ffffff;
+        background: linear-gradient(135deg, #1e4fa3, #163a73);
+        border-color: #1e4fa3;
+        box-shadow: 0 6px 16px -6px rgba(30, 79, 163, 0.5);
     }
 
     /* QR decorativo */
@@ -545,14 +554,230 @@
         0%, 100% { transform: translateY(0); }
         50% { transform: translateY(-14px); }
     }
+
+    /* ============ BYTFACT (facturador) ============ */
+    .byt-surface {
+        font-family: var(--font-byt);
+        color: #5e6b78;
+    }
+
+    .byt-gradient {
+        background:
+            radial-gradient(ellipse 55% 60% at 88% 8%, rgba(255, 255, 255, 0.14), transparent 65%),
+            radial-gradient(ellipse 45% 45% at 5% 95%, rgba(22, 58, 115, 0.55), transparent 70%),
+            linear-gradient(135deg, #163a73 0%, #1e4fa3 58%, #163a73 100%);
+    }
+
+    .btn-byt {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-family: var(--font-byt);
+        font-weight: 800;
+        font-size: 14px;
+        letter-spacing: 0.01em;
+        color: #ffffff;
+        background: linear-gradient(135deg, #1e4fa3 0%, #163a73 100%);
+        border-radius: 0.7rem;
+        padding: 0.875rem 1.75rem;
+        box-shadow: 0 10px 24px -10px rgba(30, 79, 163, 0.65);
+        transition: all 0.25s ease;
+        cursor: pointer;
+        border: 0;
+    }
+
+    .btn-byt:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 30px -10px rgba(30, 79, 163, 0.7);
+        filter: brightness(1.06);
+    }
+
+    .btn-byt:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+        filter: none;
+    }
+
+    .btn-byt-outline {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-family: var(--font-byt);
+        font-weight: 600;
+        font-size: 14px;
+        color: #163a73;
+        background: #ffffff;
+        border: 1px solid #c9d1d9;
+        border-radius: 0.7rem;
+        padding: 0.875rem 1.75rem;
+        transition: all 0.25s ease;
+        cursor: pointer;
+    }
+
+    .btn-byt-outline:hover {
+        border-color: #1e4fa3;
+        color: #1e4fa3;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px -14px rgba(22, 58, 115, 0.4);
+    }
+
+    .byt-card {
+        background: #ffffff;
+        border: 1px solid #c9d1d9;
+        border-radius: 0.9rem;
+    }
+
+    .byt-label {
+        display: block;
+        font-family: var(--font-byt);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #163a73;
+        margin-bottom: 0.4rem;
+    }
+
+    .byt-input {
+        width: 100%;
+        background: #ffffff;
+        border: 1px solid #c9d1d9;
+        border-radius: 0.7rem;
+        padding: 0.7rem 1rem;
+        font-size: 14px;
+        color: #163a73;
+        outline: none;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .byt-input::placeholder {
+        color: #9aa5b1;
+    }
+
+    .byt-input:focus {
+        border-color: #1e4fa3;
+        box-shadow: 0 0 0 3px rgba(30, 79, 163, 0.14);
+    }
+
+    .byt-eyebrow {
+        font-family: var(--font-byt);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #1e4fa3;
+    }
+
+    .byt-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: var(--font-byt);
+        font-size: 11px;
+        font-weight: 700;
+        color: #163a73;
+        background: #ffffff;
+        border: 1px solid #c9d1d9;
+        border-radius: 9999px;
+        padding: 0.3rem 0.75rem;
+    }
+
+    .byt-chip-solid {
+        background: #1e4fa3;
+        border-color: #1e4fa3;
+        color: #ffffff;
+    }
+
+    .byt-log {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 11px;
+        line-height: 1.7;
+        background: #163a73;
+        color: #dbe6f5;
+        border-radius: 0.6rem;
+        padding: 0.9rem 1rem;
+        max-height: 11rem;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    .byt-status-ok {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: #e8eef8;
+        color: #163a73;
+        border: 1px solid #1e4fa3;
+        border-radius: 0.5rem;
+        padding: 0.3rem 0.6rem;
+        font-size: 11px;
+        font-weight: 800;
+        font-family: var(--font-byt);
+    }
+
+    .byt-status-demo {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: #f4f6f9;
+        color: #5e6b78;
+        border: 1px dashed #c9d1d9;
+        border-radius: 0.5rem;
+        padding: 0.3rem 0.6rem;
+        font-size: 11px;
+        font-weight: 700;
+        font-family: var(--font-byt);
+    }
+
+    .byt-requisito {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.85rem;
+        padding: 1rem;
+        background: #ffffff;
+        border: 1px solid #c9d1d9;
+        border-radius: 0.8rem;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .byt-requisito:hover {
+        border-color: #1e4fa3;
+        box-shadow: 0 10px 24px -18px rgba(30, 79, 163, 0.6);
+    }
+
+    .byt-requisito-icono {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 0.6rem;
+        background: #e8eef8;
+        color: #1e4fa3;
+        flex-shrink: 0;
+    }
+
+    .byt-badge-demo {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        background: #ffffff;
+        color: #163a73;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        border-radius: 9999px;
+        padding: 0.35rem 0.85rem;
+        font-family: var(--font-byt);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+    }
 }
 
 @media (max-width: 767px) {
-    #navbar .nav-logo {
-        width: 3rem;
-        height: 3rem;
-    }
-
     #servicios,
     #facturador,
     #recursos,

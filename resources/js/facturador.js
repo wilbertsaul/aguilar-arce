@@ -1,18 +1,21 @@
 /**
- * Simulador de Facturación Electrónica — Aguilar & Arce Consultores
- * ------------------------------------------------------------------
- * JS vanilla (sin dependencias, sin Livewire). Réplica del flujo del facturador.
- * Cálculos idénticos al facturador real: por línea, subtotal = total / 1.18
- * y IGV = total - subtotal (18%). Todo ocurre en el navegador: no se envía
- * nada a SUNAT ni se guardan datos.
+ * BYTFACT — Simulador de facturación electrónica
+ * ---------------------------------------------------------------
+ * JS vanilla (sin dependencias, sin Livewire).
+ *
+ * - Emisión 100% simulada (marca de agua, sin valor tributario).
+ * - Consulta de DNI/RUC real vía JSON.PE con cupo por visitante,
+ *   caché compartida en servidor y fallback a modo demo.
+ * - Cálculos por línea: subtotal = total / 1.18, IGV = total - subtotal.
  */
 document.addEventListener('DOMContentLoaded', () => {
     const app = document.getElementById('facturador-app');
     if (!app) return;
 
     const CONFIG = JSON.parse(document.getElementById('facturador-data').textContent);
+    const TOTAL_STEPS = 7;
+    const CONFIG_KEY = 'bytfact:config';
 
-    // ===== Estado =====
     const initialState = () => ({
         step: 1,
         tipo: 'B',
@@ -23,6 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
         observaciones: '',
         serie: null,
         numero: null,
+        config: {
+            ambiente: 'beta',
+            probado: false,
+            demo: false,
+        },
     });
 
     function defaultItem() {
@@ -36,30 +44,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const $ = (sel) => app.querySelector(sel);
     const $$ = (sel) => Array.from(app.querySelectorAll(sel));
 
-    function money(n, moneda = state.moneda) {
+    const money = (n, moneda = state.moneda) => {
         const symbol = moneda === 'PEN' ? 'S/' : '$';
         return symbol + ' ' + (Number.isFinite(n) ? n : 0).toLocaleString('es-PE', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
         });
-    }
+    };
 
     const num = (n) => (Number.isFinite(n) ? n : 0).toLocaleString('es-PE', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
     });
 
-    function escapeHtml(str) {
-        return String(str)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;');
-    }
+    const escapeHtml = (str) => String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
 
     const lineTotal = (item) => (parseFloat(item.cantidad) || 0) * (parseFloat(item.precio) || 0);
 
-    // Totales estilo facturador real: cada línea incluye IGV (precio con IGV).
     function calc() {
         let gravadas = 0, igv = 0, total = 0;
         state.items.forEach((item) => {
@@ -69,13 +74,14 @@ document.addEventListener('DOMContentLoaded', () => {
             igv += t - sub;
             total += t;
         });
-        gravadas = Math.round(gravadas * 100) / 100;
-        igv = Math.round(igv * 100) / 100;
-        total = Math.round(total * 100) / 100;
-        return { gravadas, igv, total };
+        return {
+            gravadas: Math.round(gravadas * 100) / 100,
+            igv: Math.round(igv * 100) / 100,
+            total: Math.round(total * 100) / 100,
+        };
     }
 
-    // ===== Número a letras (es-PE) =====
+    // ===== Número a letras =====
     const UNIDADES = ['', 'UN', 'DOS', 'TRES', 'CUATRO', 'CINCO', 'SEIS', 'SIETE', 'OCHO', 'NUEVE'];
     const TEENS = ['DIEZ', 'ONCE', 'DOCE', 'TRECE', 'CATORCE', 'QUINCE', 'DIECISEIS', 'DIECISIETE', 'DIECIOCHO', 'DIECINUEVE'];
     const DECENAS = ['', '', 'VEINTE', 'TREINTA', 'CUARENTA', 'CINCUENTA', 'SESENTA', 'SETENTA', 'OCHENTA', 'NOVENTA'];
@@ -98,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function enteroEnLetras(n) {
         if (n === 0) return 'CERO';
-        let out = [];
+        const out = [];
         const millones = Math.floor(n / 1000000);
         const miles = Math.floor((n % 1000000) / 1000);
         const resto = n % 1000;
@@ -127,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return out;
     }
 
-    // ===== Navegación del stepper =====
+    // ===== Navegación =====
     function goToStep(step) {
         state.step = step;
         $$('.panel').forEach((p) => p.classList.toggle('hidden', Number(p.dataset.panel) !== step));
@@ -136,53 +142,13 @@ document.addEventListener('DOMContentLoaded', () => {
             el.classList.toggle('active', s === step);
             el.classList.toggle('done', s < step);
             const dot = el.querySelector('.stepper-dot');
-            if (s < step) dot.textContent = '✓';
-            else dot.textContent = String(s);
+            dot.textContent = s < step ? '✓' : String(s);
         });
-        $('#step-indicator').textContent = `Paso ${step} de 5`;
+        $('#step-indicator').textContent = `Paso ${step} de ${TOTAL_STEPS}`;
         $('#btn-prev').classList.toggle('invisible', step === 1);
-        $('#btn-next').classList.toggle('hidden', step === 5);
-        if (step === 5) buildPreview();
+        $('#btn-next').classList.toggle('hidden', step === TOTAL_STEPS);
+        if (step === TOTAL_STEPS) buildPreview();
         app.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    function validationError(step) {
-        if (step === 2) {
-            clearClienteErrors();
-            const doc = state.cliente.doc.trim();
-            const esRuc = /^\d{11}$/.test(doc);
-            const esDni = /^\d{8}$/.test(doc);
-            const nombre = state.cliente.nombre.trim();
-
-            if (state.tipo === 'F') {
-                if (!esRuc) {
-                    showClienteError('doc', 'Una factura requiere el RUC del cliente (11 dígitos).');
-                    return 'cliente';
-                }
-                if (!nombre) {
-                    showClienteError('nombre', 'Ingrese la razón social del cliente.');
-                    return 'cliente';
-                }
-            } else {
-                if (doc !== '' && !esDni && !esRuc) {
-                    showClienteError('doc', 'El DNI debe tener 8 dígitos (o déjelo vacío para CONSUMIDOR FINAL).');
-                    return 'cliente';
-                }
-                if (doc !== '' && !nombre) {
-                    showClienteError('nombre', 'Ingrese el nombre del cliente o use CONSUMIDOR FINAL.');
-                    return 'cliente';
-                }
-            }
-        }
-        if (step === 3) {
-            hideError('items');
-            const hayValido = state.items.some((it) => it.descripcion.trim() !== '' && lineTotal(it) > 0);
-            if (!hayValido) {
-                showError('items', 'Agregue al menos un servicio con descripción y precio mayor a cero.');
-                return 'items';
-            }
-        }
-        return null;
     }
 
     function showError(key, msg) {
@@ -205,7 +171,178 @@ document.addEventListener('DOMContentLoaded', () => {
         hideError('cliente-nombre');
     }
 
-    // ===== Paso 1: tipo de comprobante =====
+    function validationError(step) {
+        // Paso 2: configuración (se permite seguir en modo demo)
+        if (step === 2) {
+            if (!state.config.probado && !state.config.demo) {
+                $('#config-warning').classList.remove('hidden');
+                $('#config-warning').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return 'config';
+            }
+        }
+
+        // Paso 4: cliente
+        if (step === 4) {
+            clearClienteErrors();
+            const doc = state.cliente.doc.trim();
+            const esRuc = /^\d{11}$/.test(doc);
+            const esDni = /^\d{8}$/.test(doc);
+            const nombre = state.cliente.nombre.trim();
+
+            if (state.tipo === 'F') {
+                if (!esRuc) {
+                    showClienteError('doc', 'Una factura requiere el RUC del cliente (11 dígitos).');
+                    return 'cliente';
+                }
+                if (!nombre) {
+                    showClienteError('nombre', 'Ingrese la razón social del cliente.');
+                    return 'cliente';
+                }
+            } else {
+                if (doc !== '' && !esDni && !esRuc) {
+                    showClienteError('doc', 'El DNI debe tener 8 dígitos (o déjelo vacío para consumidor final).');
+                    return 'cliente';
+                }
+                if (doc !== '' && !nombre) {
+                    showClienteError('nombre', 'Ingrese el nombre del cliente o use consumidor final.');
+                    return 'cliente';
+                }
+            }
+        }
+
+        // Paso 5: servicios
+        if (step === 5) {
+            hideError('items');
+            const hayValido = state.items.some((it) => it.descripcion.trim() !== '' && lineTotal(it) > 0);
+            if (!hayValido) {
+                showError('items', 'Agregue al menos un servicio con descripción y precio mayor a cero.');
+                return 'items';
+            }
+        }
+
+        return null;
+    }
+
+    // ===== Configuración del ambiente (simulada) =====
+    const cfg = {
+        ruc: $('#cfg-ruc'),
+        razon: $('#cfg-razon'),
+        cert: $('#cfg-cert'),
+        certPass: $('#cfg-cert-pass'),
+        solUser: $('#cfg-sol-user'),
+        solPass: $('#cfg-sol-pass'),
+    };
+
+    function guardarConfig() {
+        const data = {
+            ruc: cfg.ruc.value.trim(),
+            razon: cfg.razon.value.trim(),
+            ambiente: state.config.ambiente,
+            probado: state.config.probado,
+        };
+        try { localStorage.setItem(CONFIG_KEY, JSON.stringify(data)); } catch (e) { /* modo privado */ }
+    }
+
+    function restaurarConfig() {
+        try {
+            const raw = localStorage.getItem(CONFIG_KEY);
+            if (!raw) return;
+            const data = JSON.parse(raw);
+            if (data.ruc) cfg.ruc.value = data.ruc;
+            if (data.razon) cfg.razon.value = data.razon;
+            if (data.ambiente === 'produccion') {
+                state.config.ambiente = 'produccion';
+                $$('.ambiente-toggle').forEach((b) => b.classList.toggle('active', b.dataset.ambiente === 'produccion'));
+            }
+            if (data.probado) {
+                state.config.probado = true;
+                marcarConectado('Conexión verificada anteriormente en este navegador.');
+            }
+        } catch (e) { /* configuración corrupta */ }
+    }
+
+    $$('.ambiente-toggle').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            state.config.ambiente = btn.dataset.ambiente;
+            $$('.ambiente-toggle').forEach((b) => b.classList.remove('active'));
+            btn.classList.add('active');
+            state.config.probado = false;
+            $('#conexion-estado').textContent = '';
+            $('#conexion-log').classList.add('hidden');
+        });
+    });
+
+    function marcarConectado(texto) {
+        const estado = $('#conexion-estado');
+        estado.innerHTML = `<span class="byt-status-ok"><span class="material-symbols-outlined text-[14px]">check_circle</span> Conexión establecida</span> <span class="ml-1">${escapeHtml(texto)}</span>`;
+    }
+
+    const logLineas = (ambiente) => ambiente === 'produccion'
+        ? [
+            '[1/5] Leyendo certificado digital ......... OK (vigente)',
+            '[2/5] Conectando con e-factura.sunat.gob.pe:443 ... TLS 1.2',
+            '[3/5] Autenticando RUC y usuario SOL secundario ... OK',
+            '[4/5] Enviando solicitud de prueba (billService) ...',
+            '[5/5] Respuesta SUNAT: código 0 · "El comprobante fue aceptado"',
+            'Conexión establecida con el ambiente PRODUCCIÓN.',
+        ]
+        : [
+            '[1/5] Leyendo certificado digital ......... OK (vigente)',
+            '[2/5] Conectando con e-beta.sunat.gob.pe:443 ... TLS 1.2',
+            '[3/5] Autenticando RUC y usuario SOL secundario ... OK',
+            '[4/5] Enviando solicitud de prueba (billService) ...',
+            '[5/5] Respuesta SUNAT: código 0 · "El proceso de homologación fue exitoso"',
+            'Conexión establecida con el ambiente BETA (homologación).',
+        ];
+
+    let probando = false;
+
+    $('#btn-probar').addEventListener('click', () => {
+        if (probando) return;
+        probando = true;
+
+        const btn = $('#btn-probar');
+        const log = $('#conexion-log');
+        const estado = $('#conexion-estado');
+        btn.disabled = true;
+        log.classList.remove('hidden');
+        log.textContent = '';
+        estado.textContent = 'Validando credenciales y certificado...';
+        $('#config-warning').classList.add('hidden');
+
+        const lineas = logLineas(state.config.ambiente);
+        lineas.forEach((linea, i) => {
+            setTimeout(() => {
+                log.textContent += linea + '\n';
+                log.scrollTop = log.scrollHeight;
+
+                if (i === lineas.length - 1) {
+                    state.config.probado = true;
+                    state.config.demo = false;
+                    probando = false;
+                    btn.disabled = false;
+                    marcarConectado(state.config.ambiente === 'produccion'
+                        ? 'Producción · RUC ' + (cfg.ruc.value.trim() || '—')
+                        : 'Beta / homologación · RUC ' + (cfg.ruc.value.trim() || '—'));
+                    guardarConfig();
+                }
+            }, 380 * (i + 1));
+        });
+    });
+
+    $('#btn-continuar-demo').addEventListener('click', () => {
+        state.config.demo = true;
+        $('#config-warning').classList.add('hidden');
+        goToStep(3);
+    });
+
+    cfg.ruc.addEventListener('input', () => {
+        cfg.ruc.value = cfg.ruc.value.replace(/\D/g, '').slice(0, 11);
+        state.config.probado = false;
+    });
+    cfg.razon.addEventListener('input', () => { state.config.probado = false; });
+
+    // ===== Paso 3: tipo de comprobante =====
     $$('.tipo-card').forEach((card) => {
         card.addEventListener('click', () => {
             state.tipo = card.dataset.tipo;
@@ -215,53 +352,147 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ===== Paso 2: cliente =====
+    // ===== Paso 4: cliente + consulta real =====
     const docInput = $('#cliente-doc');
     const nombreInput = $('#cliente-nombre');
     const direccionInput = $('#cliente-direccion');
+
+    function pintarCupo(restantes) {
+        if (!Number.isFinite(restantes)) return;
+        $('#consulta-cupo').textContent = restantes > 0
+            ? `Consultas reales disponibles hoy: ${restantes}`
+            : 'Sin consultas reales por hoy · puedes seguir en modo demo';
+    }
+
+    function pill(contenido, tipo) {
+        const el = $('#consulta-pill');
+        el.className = tipo === 'ok' ? 'byt-status-ok' : 'byt-status-demo';
+        el.innerHTML = contenido;
+        el.classList.remove('hidden');
+    }
+
+    function limpiarPill() {
+        const el = $('#consulta-pill');
+        el.classList.add('hidden');
+        el.innerHTML = '';
+    }
 
     docInput.addEventListener('input', () => {
         const v = docInput.value.replace(/\D/g, '').slice(0, 11);
         docInput.value = v;
         state.cliente.doc = v;
         clearClienteErrors();
+        limpiarPill();
 
         const label = $('#cliente-tipo-label');
         if (v.length === 11) label.textContent = '(RUC)';
         else if (v.length === 8) label.textContent = '(DNI)';
         else label.textContent = '(DNI o RUC)';
+    });
 
-        const found = CONFIG.clientes.find((c) => c.doc === v);
-        if (found) {
-            state.cliente.nombre = found.nombre;
-            state.cliente.direccion = found.direccion;
-            nombreInput.value = found.nombre;
-            direccionInput.value = found.direccion;
+    docInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            consultarDocumento();
         }
     });
 
     nombreInput.addEventListener('input', () => { state.cliente.nombre = nombreInput.value; clearClienteErrors(); });
     direccionInput.addEventListener('input', () => { state.cliente.direccion = direccionInput.value; });
 
+    async function consultarDocumento() {
+        const doc = state.cliente.doc.trim();
+
+        if (!/^\d{8}$|^\d{11}$/.test(doc)) {
+            showClienteError('doc', 'Escribe un DNI de 8 dígitos o un RUC de 11 dígitos.');
+            return;
+        }
+
+        clearClienteErrors();
+
+        const btn = $('#btn-consultar');
+        btn.disabled = true;
+        pill('<span class="material-symbols-outlined text-[14px] animate-spin">progress_activity</span> Consultando padrón...', 'demo');
+
+        try {
+            const response = await fetch(CONFIG.consulta.endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                body: JSON.stringify({ documento: doc }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.ok) {
+                state.cliente.nombre = data.nombre || '';
+                state.cliente.direccion = (data.datos && data.datos.direccion) || '';
+                nombreInput.value = state.cliente.nombre;
+                direccionInput.value = state.cliente.direccion;
+
+                const fuente = data.fuente === 'cache'
+                    ? 'caché del sistema'
+                    : (data.tipo === 'DNI' ? 'RENIEC' : 'SUNAT');
+
+                pill(`<span class="material-symbols-outlined text-[14px]">verified</span> ${escapeHtml(data.tipo)} verificado · ${escapeHtml(fuente)}`, 'ok');
+                pintarCupo(data.restantes);
+
+                const estadoSunat = data.datos && data.datos.estado ? ` · ${data.datos.estado}` : '';
+                $('#consulta-cupo').textContent += estadoSunat;
+                return;
+            }
+
+            // Sin cupo, provedor caído o documento inexistente → modo demo.
+            pill('<span class="material-symbols-outlined text-[14px]">science</span> Modo demo', 'demo');
+            pintarCupo(data.restantes);
+            $('#consulta-cupo').textContent = data.mensaje || 'Completa los datos manualmente para continuar.';
+
+            if (data.motivo === 'no_encontrado') {
+                showClienteError('doc', data.mensaje || 'Documento no encontrado.');
+            }
+        } catch (e) {
+            pill('<span class="material-symbols-outlined text-[14px]">cloud_off</span> Sin conexión · modo demo', 'demo');
+            $('#consulta-cupo').textContent = 'No se pudo consultar el padrón. Completa los datos a mano para continuar.';
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    $('#btn-consultar').addEventListener('click', consultarDocumento);
+
     $('#btn-consumidor-final').addEventListener('click', () => {
         if (state.tipo === 'F') {
             clearClienteErrors();
-            showClienteError('doc', 'Las facturas requieren RUC. Cambie a Boleta o ingrese el RUC del cliente.');
+            showClienteError('doc', 'Las facturas requieren RUC. Cambia a boleta o ingresa el RUC del cliente.');
             return;
         }
         clearClienteErrors();
+        limpiarPill();
         state.cliente = { doc: '', nombre: 'CONSUMIDOR FINAL', direccion: '' };
         docInput.value = '';
         nombreInput.value = 'CONSUMIDOR FINAL';
         direccionInput.value = '';
     });
 
-    // ===== Paso 3: items =====
+    $('#btn-cliente-demo').addEventListener('click', () => {
+        const demo = CONFIG.clientes.find((c) => (state.tipo === 'F' ? c.tipo === 'RUC' : true)) || CONFIG.clientes[0];
+        clearClienteErrors();
+        state.cliente = { doc: demo.doc, nombre: demo.nombre, direccion: demo.direccion };
+        docInput.value = demo.doc;
+        nombreInput.value = demo.nombre;
+        direccionInput.value = demo.direccion;
+        pill('<span class="material-symbols-outlined text-[14px]">science</span> Datos de ejemplo · no consume cupo', 'demo');
+        $('#consulta-cupo').textContent = 'Los datos de ejemplo son ficticios y no gastan consultas reales.';
+    });
+
+    // ===== Paso 5: items =====
     function renderItems() {
         const tbody = $('#items-body');
         tbody.innerHTML = '';
 
-        // datalist con los servicios demo
         let datalist = document.getElementById('lista-servicios');
         if (!datalist) {
             datalist = document.createElement('datalist');
@@ -276,23 +507,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         state.items.forEach((item, i) => {
             const row = document.createElement('tr');
-            row.className = 'border-b border-outline-variant/50';
+            row.className = 'border-b border-byt-line/60';
             row.innerHTML = `
                 <td class="py-3 pr-2">
                     <input type="number" min="1" step="1" value="${item.cantidad}" data-idx="${i}" data-field="cantidad"
-                        class="item-input w-16 bg-white border border-outline-variant rounded-lg px-2 py-2 text-sm text-navy focus:border-teal-accent outline-none">
+                        class="item-input w-16 byt-input !px-2 !py-2 text-sm">
                 </td>
                 <td class="py-3 pr-2">
                     <input type="text" list="lista-servicios" value="${escapeHtml(item.descripcion)}" data-idx="${i}" data-field="descripcion"
-                        class="item-input w-full bg-white border border-outline-variant rounded-lg px-3 py-2 text-sm text-navy focus:border-teal-accent outline-none">
+                        class="item-input w-full byt-input !py-2 text-sm">
                 </td>
                 <td class="py-3 pr-2">
                     <input type="number" min="0" step="0.01" value="${item.precio}" data-idx="${i}" data-field="precio"
-                        class="item-input w-28 bg-white border border-outline-variant rounded-lg px-2 py-2 text-sm text-right font-mono text-navy focus:border-teal-accent outline-none">
+                        class="item-input w-28 byt-input !px-2 !py-2 text-sm text-right font-mono">
                 </td>
-                <td class="py-3 pr-2 text-right font-mono text-sm font-bold text-navy item-total">${money(lineTotal(item))}</td>
+                <td class="py-3 pr-2 text-right font-mono text-sm font-bold text-byt-navy item-total">${money(lineTotal(item))}</td>
                 <td class="py-3 text-center">
-                    <button type="button" class="remove-item w-8 h-8 inline-flex items-center justify-center rounded-lg text-grey-metallic hover:text-error hover:bg-error/10 transition-colors" data-idx="${i}" title="Quitar servicio" ${state.items.length === 1 ? 'style="opacity:0.3; pointer-events:none;"' : ''}>
+                    <button type="button" class="remove-item w-8 h-8 inline-flex items-center justify-center rounded-lg text-byt-grey hover:text-error hover:bg-error/10 transition-colors" data-idx="${i}" title="Quitar servicio" ${state.items.length === 1 ? 'style="opacity:0.3; pointer-events:none;"' : ''}>
                         <span class="material-symbols-outlined text-[18px]">close</span>
                     </button>
                 </td>`;
@@ -333,8 +564,7 @@ document.addEventListener('DOMContentLoaded', () => {
     $('#items-body').addEventListener('click', (e) => {
         const btn = e.target.closest('.remove-item');
         if (!btn) return;
-        const idx = Number(btn.dataset.idx);
-        state.items.splice(idx, 1);
+        state.items.splice(Number(btn.dataset.idx), 1);
         if (state.items.length === 0) state.items.push(defaultItem());
         renderItems();
     });
@@ -348,12 +578,13 @@ document.addEventListener('DOMContentLoaded', () => {
         hideError('items');
     });
 
-    // ===== Paso 4: condiciones =====
+    // ===== Paso 6: condiciones =====
     $$('.moneda-toggle').forEach((btn) => {
         btn.addEventListener('click', () => {
             state.moneda = btn.dataset.moneda;
             $$('.moneda-toggle').forEach((b) => b.classList.remove('active'));
             btn.classList.add('active');
+            updateTotals();
         });
     });
 
@@ -367,12 +598,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     $('#observaciones').addEventListener('input', (e) => { state.observaciones = e.target.value; });
 
-    // ===== Paso 5: vista previa (réplica del comprobante) =====
+    // ===== Paso 7: vista previa =====
     function buildPreview() {
         const c = calc();
         const esBoleta = state.tipo === 'B';
+        const emisor = {
+            razonSocial: cfg.razon.value.trim() || CONFIG.emisor.razonSocial,
+            ruc: cfg.ruc.value.trim() || CONFIG.emisor.ruc,
+            direccion: CONFIG.emisor.direccion,
+            telefono: CONFIG.emisor.telefono,
+            email: CONFIG.emisor.email,
+        };
+
         state.serie = esBoleta ? 'B001' : 'F001';
-        state.numero = String(Math.floor(Math.random() * 8000) + 1000).padStart(8, '0');
+        if (state.numero === null) {
+            state.numero = (Math.floor(Math.random() * 8000) + 1000).toString().padStart(8, '0');
+        }
 
         const tipoDocLabel = esBoleta ? 'BOLETA' : 'FACTURA';
         const esRuc = /^\d{11}$/.test(state.cliente.doc);
@@ -383,6 +624,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const monedaNombre = state.moneda === 'PEN' ? 'SOLES' : 'DOLARES AMERICANOS';
         const simbolo = state.moneda === 'PEN' ? 'S/' : '$';
         const forma = state.formaPago === 'contado' ? 'CONTADO' : 'CREDITO';
+        const ambiente = state.config.ambiente === 'produccion' ? 'PRODUCCION' : 'BETA';
+
         const items = state.items.filter((it) => it.descripcion.trim() !== '' && lineTotal(it) > 0);
 
         const rows = items.map((it) => {
@@ -406,16 +649,18 @@ document.addEventListener('DOMContentLoaded', () => {
             <table style="width:100%; border-collapse:collapse; margin-bottom:6px;">
                 <tr>
                     <td style="width:24%; text-align:center; vertical-align:middle; padding:4px;">
-                        <img src="${CONFIG.logo}" alt="Logo" style="height:54px; margin:auto;">
+                        <img src="${CONFIG.sistema.logo}" alt="BYTFACT" style="height:34px; margin:auto;">
                     </td>
                     <td style="width:44%; text-align:center; vertical-align:middle; padding:4px;">
-                        <div style="font-weight:bold; font-size:13px;">${escapeHtml(CONFIG.razonSocial)}</div>
-                        <div style="font-size:11px;">RUC: ${escapeHtml(CONFIG.ruc)}</div>
-                        <div style="font-size:9px;">${escapeHtml(CONFIG.direccion)}</div>
+                        <div style="font-weight:bold; font-size:13px;">${escapeHtml(emisor.razonSocial)}</div>
+                        <div style="font-size:11px;">RUC: ${escapeHtml(emisor.ruc)}</div>
+                        <div style="font-size:9px;">${escapeHtml(emisor.direccion)}</div>
+                        <div style="font-size:9px;">${escapeHtml(emisor.telefono)} · ${escapeHtml(emisor.email)}</div>
                     </td>
                     <td style="width:32%; text-align:center; vertical-align:middle; padding:4px;">
                         <div style="display:inline-block; border:2px solid #000; font-weight:bold; padding:3px 10px; font-size:12px;">${tipoDocLabel} ELECTRONICA</div>
                         <div style="font-weight:bold; font-size:14px; margin-top:5px;">${state.serie}-${state.numero}</div>
+                        <div style="font-size:8px;">AMBIENTE: ${ambiente}</div>
                     </td>
                 </tr>
             </table>
@@ -448,10 +693,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">
                 <div style="font-size:8px; max-width:62%; line-height:1.5;">
                     Representacion impresa del comprobante electronico.<br>
-                    Emitido en el simulador web de Aguilar &amp; Arce Consultores.<br>
-                    Autorizado mediante el Sistema de Emision Electronica - SIMULACION.
+                    Emitido con <strong>bytfact.</strong> — facturación electrónica.<br>
+                    Simulación sin valor tributario. No autorizado por SUNAT.
                 </div>
-                <div class="qr-box"></div>
+                <div class="qr-box byt"></div>
             </div>`;
     }
 
@@ -460,8 +705,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const btn = $('#btn-emitir');
         const text = $('#btn-emitir-text');
         btn.disabled = true;
-        btn.classList.add('opacity-70', 'cursor-wait');
-        text.textContent = 'Enviando a SUNAT...';
+        text.textContent = 'Firmando XML UBL 2.1...';
+
+        setTimeout(() => { text.textContent = 'Enviando a SUNAT...'; }, 700);
+        setTimeout(() => { text.textContent = 'Esperando CDR...'; }, 1500);
 
         setTimeout(() => {
             $('#res-numero').textContent = `${state.serie}-${state.numero}`;
@@ -470,15 +717,20 @@ document.addEventListener('DOMContentLoaded', () => {
             $('#emision-result').classList.remove('hidden');
 
             btn.disabled = false;
-            btn.classList.remove('opacity-70', 'cursor-wait');
             text.textContent = 'Emitir comprobante (simulado)';
 
             $('#emision-result').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 1200);
+        }, 2300);
     });
 
     $('#btn-reiniciar').addEventListener('click', () => {
+        const ambiente = state.config.ambiente;
+        const probado = state.config.probado;
+        const demo = state.config.demo;
+
         state = initialState();
+        state.config = { ambiente, probado, demo };
+
         docInput.value = '';
         nombreInput.value = '';
         direccionInput.value = '';
@@ -488,6 +740,8 @@ document.addEventListener('DOMContentLoaded', () => {
         $$('.moneda-toggle').forEach((b) => b.classList.toggle('active', b.dataset.moneda === 'PEN'));
         $$('.forma-pago-toggle').forEach((b) => b.classList.toggle('active', b.dataset.forma === 'contado'));
         $('#emision-result').classList.add('hidden');
+        limpiarPill();
+        $('#consulta-cupo').textContent = '';
         clearClienteErrors();
         hideError('items');
         renderItems();
@@ -496,20 +750,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ===== Botones de navegación =====
     $('#btn-next').addEventListener('click', () => {
-        const error = validationError(state.step);
-        if (error) return;
-        if (state.step < 5) goToStep(state.step + 1);
+        if (validationError(state.step)) return;
+        if (state.step < TOTAL_STEPS) goToStep(state.step + 1);
     });
 
     $('#btn-prev').addEventListener('click', () => {
         if (state.step > 1) {
             clearClienteErrors();
             hideError('items');
+            $('#config-warning').classList.add('hidden');
             goToStep(state.step - 1);
         }
     });
 
     // ===== Init =====
     app.querySelector('.tipo-card[data-tipo="B"]').classList.add('selected');
+    restaurarConfig();
+    pintarCupo(CONFIG.consulta.limitePorIp);
     renderItems();
 });

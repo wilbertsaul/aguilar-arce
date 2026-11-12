@@ -80,7 +80,7 @@
                     </div>
                 </div>
                 <div class="pt-6">
-                    <a href="https://wa.me/{{ $whatsapp }}?text=Hola,%20deseo%20una%20atenci%C3%B3n%20inmediata%20con%20Aguilar%20%26%20Arce." target="_blank" rel="noopener noreferrer" class="btn-whatsapp w-full">
+                    <a href="https://wa.me/{{ $whatsapp }}?text=Hola,%20deseo%20una%20atenci%C3%B3n%20inmediata%20con%20BYT%20SOLUTION." target="_blank" rel="noopener noreferrer" class="btn-whatsapp w-full">
                         <span class="material-symbols-outlined text-[18px]">forum</span>
                         Iniciar WhatsApp Directo
                     </a>

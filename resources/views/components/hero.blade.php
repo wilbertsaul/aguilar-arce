@@ -32,7 +32,7 @@
                         Solicitar Diagnóstico Gratuito
                         <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
                     </a>
-                    <a href="https://wa.me/{{ $whatsapp }}?text=Hola,%20deseo%20chatear%20con%20un%20especialista%20de%20Aguilar%20%26%20Arce." target="_blank" rel="noopener noreferrer" class="btn-whatsapp">
+                    <a href="https://wa.me/{{ $whatsapp }}?text=Hola,%20deseo%20chatear%20con%20un%20especialista%20de%20BYT%20SOLUTION." target="_blank" rel="noopener noreferrer" class="btn-whatsapp">
                         <span class="material-symbols-outlined text-[18px]">forum</span>
                         Chatear con un Especialista
                     </a>
@@ -61,11 +61,9 @@
                         {{-- Encabezado del comprobante --}}
                         <div class="bg-gradient-to-r from-navy to-navy-light px-5 py-4 flex items-center justify-between">
                             <div class="flex items-center gap-2.5">
-                                <div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center shrink-0">
-                                    <img src="{{ asset('images/AA Consultores.png') }}" alt="A&A" class="w-full h-full object-contain p-0.5">
-                                </div>
+                                <img src="{{ asset('images/bytsolution/bytsolution-icono-blanco.png') }}" alt="BYT SOLUTION" class="w-8 h-8 shrink-0">
                                 <div class="leading-tight">
-                                    <p class="text-[9px] font-title font-bold text-white">AGUILAR &amp; ARCE CONSULTORES</p>
+                                    <p class="text-[9px] font-title font-bold text-white">BYT SOLUTION</p>
                                     <p class="text-[8px] text-grey-metallic font-mono">RUC 20608492011</p>
                                 </div>
                             </div>

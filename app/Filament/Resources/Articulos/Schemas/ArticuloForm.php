@@ -51,7 +51,7 @@ class ArticuloForm
                     ->schema([
                         TextInput::make('autor_nombre')
                             ->label('Nombre del autor')
-                            ->default('Aguilar & Arce')
+                            ->default('BYT SOLUTION')
                             ->maxLength(255),
                         TextInput::make('autor_rol')
                             ->label('Cargo / Rol')

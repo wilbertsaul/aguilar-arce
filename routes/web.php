@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/facturador', [FacturadorController::class, 'index'])->name('facturador');
+Route::post('/facturador/consultar-documento', [FacturadorController::class, 'consultarDocumento'])
+    ->middleware('throttle:20,1')
+    ->name('facturador.consultar');
 
 Route::get('/blog', [ArticuloController::class, 'blog'])->name('blog');
 Route::get('/articulo/{slug}', [ArticuloController::class, 'show'])->name('articulo.show');
