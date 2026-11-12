@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Blog | BYT SOLUTION')
+@section('meta_description', 'Artículos, guías y novedades contables, tributarias y de facturación electrónica para empresas peruanas.')
 
 @section('content')
 <style>

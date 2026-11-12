@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', $articulo->titulo . ' | BYT SOLUTION')
+@section('meta_description', \Illuminate\Support\Str::limit(trim(strip_tags($articulo->resumen ?? '')), 155))
+@section('og_image', $articulo->imagen ?: 'images/bytsolution/og-image.png')
+@section('og_type', 'article')
 
 @section('content')
 <style>

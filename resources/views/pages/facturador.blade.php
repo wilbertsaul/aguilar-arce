@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'BYTFACT · Simulador de facturación electrónica')
+@section('meta_description', 'Simulador gratuito de facturación electrónica: DNI y RUC reales, IGV, vista previa del comprobante y CDR. Sin valor tributario.')
 
 @section('content')
 @php

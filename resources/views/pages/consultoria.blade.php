@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Agendar Consultoría | BYT SOLUTION')
+@section('meta_description', 'Agenda una consultoría contable, tributaria o de auditoría con BYT SOLUTION. Atención en Puerto Maldonado, Cusco y todo el Perú.')
 
 @section('content')
 <section class="relative min-h-screen flex items-center overflow-hidden">
