@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->trustProxies(at: ['127.0.0.1', '::1', '172.16.0.0/12', '10.0.0.0/8']);
         $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
+        $middleware->alias(['cliente.activo' => \App\Http\Middleware\ClienteActivo::class]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
