@@ -179,20 +179,13 @@
                         </div>
                     </div>
                     <div class="md:col-span-2">
-                        <label class="byt-label" for="cfg-cert">Certificado digital (.pfx)</label>
-                        <div class="flex flex-col sm:flex-row gap-2.5">
-                            <input id="cfg-cert" type="file" accept=".pfx,.p12" class="byt-input !py-2 text-xs file:mr-3 file:rounded-md file:border-0 file:bg-byt-blue-soft file:px-3 file:py-1.5 file:text-[11px] file:font-bold file:text-byt-navy">
-                            <input id="cfg-cert-pass" type="password" class="byt-input sm:max-w-[220px]" placeholder="Contraseña del certificado">
+                        <div class="bg-byt-blue-soft border border-byt-blue/25 rounded-xl p-4 flex items-start gap-3">
+                            <span class="material-symbols-outlined text-[20px] text-byt-blue mt-0.5">info</span>
+                            <div class="text-xs text-byt-grey leading-relaxed">
+                                <p class="font-byt font-extrabold text-byt-navy mb-1">Certificado digital y usuario SOL secundario</p>
+                                <p>En la implementación real, <strong class="text-byt-navy">BYTFACT configura por ti</strong> el certificado digital (.pfx) de una entidad acreditada y el usuario SOL secundario para facturación electrónica. <strong class="text-byt-navy">En esta demo no necesitas subir ni escribir nada</strong>: el sistema los simula automáticamente al probar la conexión.</p>
+                            </div>
                         </div>
-                        <p class="text-[11px] text-byt-grey mt-1.5">En la demo no se sube ningún archivo: se valida en el navegador.</p>
-                    </div>
-                    <div>
-                        <label class="byt-label" for="cfg-sol-user">Usuario SOL secundario</label>
-                        <input id="cfg-sol-user" class="byt-input" value="BYTFACTDEMO" autocomplete="off">
-                    </div>
-                    <div>
-                        <label class="byt-label" for="cfg-sol-pass">Clave SOL</label>
-                        <input id="cfg-sol-pass" type="password" class="byt-input" value="demo1234" autocomplete="new-password">
                     </div>
                 </div>
 
@@ -206,11 +199,10 @@
 
                 <div id="conexion-log" class="byt-log mt-4 hidden"></div>
 
-                <div id="config-warning" class="hidden mt-4 bg-byt-mist border border-byt-line rounded-xl p-4 text-xs text-byt-grey">
-                    Todavía no probaste la conexión.
-                    <button type="button" id="btn-continuar-demo" class="font-byt font-extrabold text-byt-blue underline underline-offset-2">Continuar en modo demo</button>
-                    o pulsa “Probar conexión” para ver el handshake simulado.
-                </div>
+                <p class="text-[11px] text-byt-grey mt-4">
+                    <span class="material-symbols-outlined text-[14px] align-middle">info</span>
+                    El certificado y el usuario SOL son informativos: no bloquean el avance. Pulsa “Probar conexión” para ver el handshake simulado o continúa directamente.
+                </p>
             </div>
 
             {{-- PASO 3: Tipo de comprobante --}}
@@ -248,7 +240,7 @@
             {{-- PASO 4: Cliente --}}
             <div class="panel hidden p-6 sm:p-9" data-panel="4">
                 <h2 class="font-byt font-extrabold text-xl text-byt-navy">Datos del cliente</h2>
-                <p class="text-sm text-byt-grey mt-1 mb-7">
+                <p class="text-sm text-byt-grey mt-1 mb-7" id="cliente-help-text">
                     Escribe el <strong class="text-byt-navy">DNI</strong> (8 dígitos) o <strong class="text-byt-navy">RUC</strong> (11 dígitos) y consulta el padrón.
                     Es la misma consulta que hace el sistema real.
                 </p>

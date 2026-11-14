@@ -172,14 +172,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function validationError(step) {
-        // Paso 2: configuración (se permite seguir en modo demo)
-        if (step === 2) {
-            if (!state.config.probado && !state.config.demo) {
-                $('#config-warning').classList.remove('hidden');
-                $('#config-warning').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                return 'config';
-            }
-        }
+        // Paso 2: configuración (informativa, no bloquea el avance)
+        // El certificado y el usuario SOL son simulados; el visitante puede continuar.
 
         // Paso 4: cliente
         if (step === 4) {
@@ -227,10 +221,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const cfg = {
         ruc: $('#cfg-ruc'),
         razon: $('#cfg-razon'),
-        cert: $('#cfg-cert'),
-        certPass: $('#cfg-cert-pass'),
-        solUser: $('#cfg-sol-user'),
-        solPass: $('#cfg-sol-pass'),
     };
 
     function guardarConfig() {
@@ -308,7 +298,6 @@ document.addEventListener('DOMContentLoaded', () => {
         log.classList.remove('hidden');
         log.textContent = '';
         estado.textContent = 'Validando credenciales y certificado...';
-        $('#config-warning').classList.add('hidden');
 
         const lineas = logLineas(state.config.ambiente);
         lineas.forEach((linea, i) => {
@@ -330,12 +319,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    $('#btn-continuar-demo').addEventListener('click', () => {
-        state.config.demo = true;
-        $('#config-warning').classList.add('hidden');
-        goToStep(3);
-    });
-
     cfg.ruc.addEventListener('input', () => {
         cfg.ruc.value = cfg.ruc.value.replace(/\D/g, '').slice(0, 11);
         state.config.probado = false;
@@ -349,6 +332,24 @@ document.addEventListener('DOMContentLoaded', () => {
             $$('.tipo-card').forEach((c) => c.classList.remove('selected'));
             card.classList.add('selected');
             clearClienteErrors();
+
+            // Si cambió a Factura con un DNI ya escrito, limpiarlo.
+            if (state.tipo === 'F' && /^\d{8}$/.test(state.cliente.doc)) {
+                state.cliente.doc = '';
+                if (docInput) docInput.value = '';
+                limpiarPill();
+                showClienteError('doc', 'Cambiaste a factura: ingresa el RUC del cliente (11 dígitos).');
+            }
+
+            // Etiqueta y texto de ayuda según el tipo.
+            const label = $('#cliente-tipo-label');
+            if (label) {
+                if (state.tipo === 'F') label.textContent = '(RUC)';
+                else if (state.cliente.doc.length === 11) label.textContent = '(RUC)';
+                else if (state.cliente.doc.length === 8) label.textContent = '(DNI)';
+                else label.textContent = '(DNI o RUC)';
+            }
+            actualizarAyudaCliente();
         });
     });
 
@@ -385,7 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
         limpiarPill();
 
         const label = $('#cliente-tipo-label');
-        if (v.length === 11) label.textContent = '(RUC)';
+        if (state.tipo === 'F' || v.length === 11) label.textContent = '(RUC)';
         else if (v.length === 8) label.textContent = '(DNI)';
         else label.textContent = '(DNI o RUC)';
     });
@@ -400,11 +401,27 @@ document.addEventListener('DOMContentLoaded', () => {
     nombreInput.addEventListener('input', () => { state.cliente.nombre = nombreInput.value; clearClienteErrors(); });
     direccionInput.addEventListener('input', () => { state.cliente.direccion = direccionInput.value; });
 
+    function actualizarAyudaCliente() {
+        const el = $('#cliente-help-text');
+        if (!el) return;
+        if (state.tipo === 'F') {
+            el.innerHTML = 'Escribe el <strong class="text-byt-navy">RUC</strong> (11 dígitos) del cliente y consulta el padrón. Las facturas requieren RUC. Es la misma consulta que hace el sistema real.';
+        } else {
+            el.innerHTML = 'Escribe el <strong class="text-byt-navy">DNI</strong> (8 dígitos) o <strong class="text-byt-navy">RUC</strong> (11 dígitos) y consulta el padrón. Es la misma consulta que hace el sistema real.';
+        }
+    }
+
     async function consultarDocumento() {
         const doc = state.cliente.doc.trim();
 
         if (!/^\d{8}$|^\d{11}$/.test(doc)) {
             showClienteError('doc', 'Escribe un DNI de 8 dígitos o un RUC de 11 dígitos.');
+            return;
+        }
+
+        // Una factura requiere RUC del cliente; bloquear la consulta de DNI.
+        if (state.tipo === 'F' && !/^\d{11}$/.test(doc)) {
+            showClienteError('doc', 'Una factura requiere el RUC del cliente (11 dígitos). El DNI solo aplica a boletas.');
             return;
         }
 
@@ -758,13 +775,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (state.step > 1) {
             clearClienteErrors();
             hideError('items');
-            $('#config-warning').classList.add('hidden');
             goToStep(state.step - 1);
         }
     });
 
     // ===== Init =====
     app.querySelector('.tipo-card[data-tipo="B"]').classList.add('selected');
+    actualizarAyudaCliente();
     restaurarConfig();
     pintarCupo(CONFIG.consulta.limitePorIp);
     renderItems();
