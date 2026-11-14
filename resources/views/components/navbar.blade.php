@@ -18,6 +18,7 @@
             <a href="{{ route('home') }}" class="text-navy border-b-2 border-teal-accent pb-1 transition-colors">Inicio</a>
             <a href="{{ route('home') }}#servicios" class="text-on-surface-variant hover:text-navy transition-colors pb-1">Servicios</a>
             <a href="{{ route('facturador') }}" class="text-on-surface-variant hover:text-navy transition-colors pb-1">Facturador</a>
+            <a href="{{ route('descarga-sunat') }}" class="text-on-surface-variant hover:text-navy transition-colors pb-1">Descargas SUNAT</a>
             <a href="{{ route('home') }}#recursos" class="text-on-surface-variant hover:text-navy transition-colors pb-1">Recursos</a>
             <a href="{{ route('home') }}#contacto" class="text-on-surface-variant hover:text-navy transition-colors pb-1">Contacto</a>
         </nav>
@@ -40,6 +41,7 @@
             <a href="{{ route('home') }}" class="flex items-center justify-between py-1">Inicio <span class="material-symbols-outlined text-on-surface-variant">chevron_right</span></a>
             <a href="{{ route('home') }}#servicios" class="flex items-center justify-between py-1">Servicios <span class="material-symbols-outlined text-on-surface-variant">chevron_right</span></a>
             <a href="{{ route('facturador') }}" class="flex items-center justify-between py-1">Facturador Online <span class="material-symbols-outlined text-on-surface-variant">chevron_right</span></a>
+            <a href="{{ route('descarga-sunat') }}" class="flex items-center justify-between py-1">Descargas SUNAT <span class="material-symbols-outlined text-on-surface-variant">chevron_right</span></a>
             <a href="{{ route('home') }}#recursos" class="flex items-center justify-between py-1">Centro de Recursos <span class="material-symbols-outlined text-on-surface-variant">chevron_right</span></a>
             <a href="{{ route('home') }}#contacto" class="flex items-center justify-between py-1">Contacto <span class="material-symbols-outlined text-on-surface-variant">chevron_right</span></a>
             <div class="flex flex-col gap-3 pt-4 border-t border-outline-variant/60">

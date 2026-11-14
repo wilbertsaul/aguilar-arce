@@ -27,4 +27,10 @@ return [
 
     'rafaga_por_minuto' => (int) env('CONSULTAS_RAFAGA_MINUTO', 10),
 
+    /*
+    | Límites del simulador de descarga SUNAT (consulta individual real).
+    | 1 consulta por día por IP y 10 consultas globales por día.
+    */
+    'sunat_por_ip_dia' => (int) env('CONSULTAS_SUNAT_POR_IP_DIA', 1),
+    'sunat_global_dia' => (int) env('CONSULTAS_SUNAT_GLOBAL_DIA', 10),
 ];

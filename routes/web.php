@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticuloController;
 use App\Http\Controllers\ConsultoriaController;
+use App\Http\Controllers\DescargaSunatController;
 use App\Http\Controllers\FacturadorController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -12,6 +13,11 @@ Route::get('/facturador', [FacturadorController::class, 'index'])->name('factura
 Route::post('/facturador/consultar-documento', [FacturadorController::class, 'consultarDocumento'])
     ->middleware('throttle:20,1')
     ->name('facturador.consultar');
+
+Route::get('/descarga-sunat', [DescargaSunatController::class, 'index'])->name('descarga-sunat');
+Route::post('/descarga-sunat/consultar', [DescargaSunatController::class, 'consultar'])
+    ->middleware('throttle:5,1')
+    ->name('descarga-sunat.consultar');
 
 Route::get('/blog', [ArticuloController::class, 'blog'])->name('blog');
 Route::get('/articulo/{slug}', [ArticuloController::class, 'show'])->name('articulo.show');
